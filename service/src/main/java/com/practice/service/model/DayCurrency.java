@@ -3,7 +3,7 @@ package com.practice.service.model;
 import java.sql.Date;
 
 public class DayCurrency {
-    private int PK_id;
+    private String PK_id;
 
     private int nominal;
 
@@ -14,11 +14,11 @@ public class DayCurrency {
     public DayCurrency(){
 
     }
-    public int getPK_Id() {
+    public String getPK_Id() {
         return PK_id;
     }
 
-    public void setPK_Id(int PK_id) {
+    public void setPK_Id(String  PK_id) {
         this.PK_id = PK_id;
     }
 
