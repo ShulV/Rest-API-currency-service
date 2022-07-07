@@ -18,15 +18,16 @@ public class CurrencyDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // Получение списка названия валют для раскрывающегося меню
     public List<String> getAllCurrencyNames() {
         List<Currency> currencies = jdbcTemplate.query("SELECT name FROM \"Currency\"",
                 new BeanPropertyRowMapper<>(Currency.class));
         int currencyAmount = currencies.size();
-        List<String> namesOfCurrencies = new ArrayList<>();
+        List<String> currencyNames = new ArrayList<>();
         for (Currency currency : currencies) {
-            namesOfCurrencies.add(currency.getName());
+            currencyNames.add(currency.getName());
         }
-        return  namesOfCurrencies;
+        return currencyNames;
     }
 
     public List<Currency> index() {
