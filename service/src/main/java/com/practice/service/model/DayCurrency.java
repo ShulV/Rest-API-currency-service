@@ -3,7 +3,6 @@ package com.practice.service.model;
 import java.sql.Date;
 
 public class DayCurrency {
-
     private int PK_id;
 
     private int nominal;
