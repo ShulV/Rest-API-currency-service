@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -33,19 +34,16 @@ public class DayCurrencyDAO {
                 .stream().findAny().orElse(null);
     }
 
-    public List<DayCurrency> getCurrenciesForPeriod(String fromDate, String toDate, String currencyName) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date _fromDate = simpleDateFormat.parse(fromDate, new ParsePosition(0));
-        Date _toDate = simpleDateFormat.parse(toDate, new ParsePosition(0));
-        return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, \"PK_id\"\n" +
-                        "    FROM public.\"DayCurrency\"\n" +
-                        "    where \"PK_id\"=(SELECT \"PK_id\"\n" +
-                        "    FROM public.\"Currency\"\n" +
-                        "    where name=?)\n" +
-                        "    and\n" +
-                        "    Date between ? and ?;",
-                new Object[]{currencyName, _fromDate, _toDate},
+    public List<DayCurrency> getCurrenciesForPeriod(Date fromDate, Date toDate, String currencyName) {
+        System.out.println(fromDate);
+        return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, dc.\"PK_id\"\n" +
+                        "FROM \"DayCurrency\" as dc\n" +
+                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +
+                        "where name = ? and\n" +
+                        "Date between ? and ?;",
+                new Object[]{currencyName, fromDate, toDate},
                 new BeanPropertyRowMapper<>(DayCurrency.class)).stream().toList();
+
     }
 
 //    public void save(DayCurrency dayCurrency) {

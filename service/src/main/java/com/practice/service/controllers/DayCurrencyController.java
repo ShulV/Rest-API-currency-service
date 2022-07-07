@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,10 +24,10 @@ public class DayCurrencyController {
     }
 
     @GetMapping(value = "/period-currencies", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<DayCurrency> getCurrenciesForPeriod(@RequestParam(name="fromDate") String fromDate,
-                                                    @RequestParam(name="toDate") String toDate,
+    public List<DayCurrency> getCurrenciesForPeriod(@RequestParam(name="fromDate") Date fromDate,
+                                                    @RequestParam(name="toDate") Date toDate,
                                                     @RequestParam(name="curName") String currencyName) {
 
-        return dayCurrencyDAO.getCurrenciesForPeriod(toDate, fromDate, currencyName);
+        return dayCurrencyDAO.getCurrenciesForPeriod(fromDate, toDate, currencyName);
     }
 }
