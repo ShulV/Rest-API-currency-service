@@ -35,7 +35,7 @@ public class DayCurrencyDAO {
     }
 
     public List<DayCurrency> getCurrenciesForPeriod(Date fromDate, Date toDate, String currencyName) {
-        System.out.println(fromDate);
+
         return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, dc.\"PK_id\"\n" +
                         "FROM \"DayCurrency\" as dc\n" +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +

@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/day-currencies")
+@RequestMapping("/api/currency")
 public class DayCurrencyController {
     private final DayCurrencyDAO dayCurrencyDAO;
 
