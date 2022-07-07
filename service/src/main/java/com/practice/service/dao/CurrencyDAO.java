@@ -42,7 +42,7 @@ public class CurrencyDAO {
     }
 
     public void save(Currency currency) {
-        jdbcTemplate.update("INSERT INTO DayCurrency VALUES(?, ?, ?, ?)", currency.getPK_Id(),
+        jdbcTemplate.update("INSERT INTO Currency VALUES(?, ?, ?, ?)", currency.getPK_Id(),
                 currency.getNumCode(), currency.getCharCode(), currency.getName());
     }
 

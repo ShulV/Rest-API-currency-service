@@ -3,6 +3,7 @@ package com.practice.service.controllers;
 import com.practice.service.dao.CurrencyDAO;
 import com.practice.service.model.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CurrencyController {
         this.currencyDAO = currencyDAO;
     }
 
-    @GetMapping("/all-currency-names")
+    @GetMapping(value = "/all-currency-names", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getAllCurrencyNames() {
         return currencyDAO.getAllCurrencyNames();
     }
