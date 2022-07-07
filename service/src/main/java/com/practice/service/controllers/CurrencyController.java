@@ -5,6 +5,8 @@ import com.practice.service.model.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/currency")
 public class CurrencyController {
@@ -13,6 +15,11 @@ public class CurrencyController {
     @Autowired
     public CurrencyController(CurrencyDAO currencyDAO) {
         this.currencyDAO = currencyDAO;
+    }
+
+    @GetMapping("/all-currency-names")
+    public List<String> getAllCurrencyNames() {
+        return currencyDAO.getAllCurrencyNames();
     }
 
     @GetMapping()

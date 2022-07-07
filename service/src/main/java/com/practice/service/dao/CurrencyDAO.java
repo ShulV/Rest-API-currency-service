@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -17,9 +18,15 @@ public class CurrencyDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Currency> getAllCurrencyNames() {
-        return jdbcTemplate.query("SELECT name * FROM Currency",
+    public List<String> getAllCurrencyNames() {
+        List<Currency> currencies = jdbcTemplate.query("SELECT name FROM \"Currency\"",
                 new BeanPropertyRowMapper<>(Currency.class));
+        int currencyAmount = currencies.size();
+        List<String> namesOfCurrencies = new ArrayList<>();
+        for (Currency currency : currencies) {
+            namesOfCurrencies.add(currency.getName());
+        }
+        return  namesOfCurrencies;
     }
 
     public List<Currency> index() {
