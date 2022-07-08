@@ -1,7 +1,7 @@
 package com.practice.service.controllers;
 
+import com.practice.service.CurrencyService;
 import com.practice.service.dao.CurrencyDAO;
-import com.practice.service.model.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +11,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/currency")
 public class CurrencyController {
-    private final CurrencyDAO currencyDAO;
+
+
+
+
+    private final CurrencyService currencyService;
 
     @Autowired
-    public CurrencyController(CurrencyDAO currencyDAO) {
-        this.currencyDAO = currencyDAO;
+    public CurrencyController(CurrencyService currencyService) {
+        this.currencyService = currencyService;
     }
     // Получение списка названия валют для раскрывающегося меню
     @GetMapping(value = "/all-currency-names", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getAllCurrencyNames() {
-        return currencyDAO.getAllCurrencyNames();
+        return currencyService.getAllCurrencyNames();
     }
     //
 

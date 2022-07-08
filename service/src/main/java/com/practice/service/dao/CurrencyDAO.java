@@ -4,8 +4,11 @@ import com.practice.service.model.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +23,8 @@ public class CurrencyDAO {
 
     // Получение списка названия валют для раскрывающегося меню
     public List<String> getAllCurrencyNames() {
-        List<Currency> currencies = jdbcTemplate.query("SELECT name FROM \"Currency\"",
-                new BeanPropertyRowMapper<>(Currency.class));
-        int currencyAmount = currencies.size();
-        List<String> currencyNames = new ArrayList<>();
-        for (Currency currency : currencies) {
-            currencyNames.add(currency.getName());
-        }
-        return currencyNames;
+        return jdbcTemplate.query("SELECT name FROM \"Currency\"",
+                ResultSet::getString);
     }
 
     public List<Currency> index() {
