@@ -1,5 +1,6 @@
 package com.practice.service.controllers;
 
+import com.practice.service.model.CurrencyMenuItem;
 import com.practice.service.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,10 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/currency")
 public class CurrencyController {
-
-
-
-
     private final CurrencyService currencyService;
 
     @Autowired
@@ -21,9 +18,9 @@ public class CurrencyController {
         this.currencyService = currencyService;
     }
     // Получение списка названия валют для раскрывающегося меню
-    @GetMapping(value = "/all-currency-names", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> getAllCurrencyNames() {
-        return currencyService.getAllCurrencyNames();
+    @GetMapping(value = "/all-currency-designations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CurrencyMenuItem> getAllCurrencyDesignations() {
+        return currencyService.getAllCurrencyDesignations();
     }
     //
 

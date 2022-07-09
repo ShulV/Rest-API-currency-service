@@ -1,6 +1,7 @@
 package com.practice.service.services;
 
 import com.practice.service.dao.CurrencyDAO;
+import com.practice.service.model.CurrencyMenuItem;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public class CurrencyService {
     public CurrencyService(CurrencyDAO currencyDAO) {
         this.currencyDAO = currencyDAO;
     }
-    public List<String> getAllCurrencyNames() {
-        return currencyDAO.getAllCurrencyNames();
+    public List<CurrencyMenuItem> getAllCurrencyDesignations() {
+        return currencyDAO.getAllCurrencyDesignations();
     }
 }

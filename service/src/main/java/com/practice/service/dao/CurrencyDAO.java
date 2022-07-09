@@ -1,6 +1,7 @@
 package com.practice.service.dao;
 
 import com.practice.service.model.Currency;
+import com.practice.service.model.CurrencyMenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,8 +23,8 @@ public class CurrencyDAO {
     }
 
     // Получение списка названия валют для раскрывающегося меню
-    public List<String> getAllCurrencyNames() {
-        return jdbcTemplate.query("SELECT name FROM \"Currency\"", new CurrencyMapper());
+    public List<CurrencyMenuItem> getAllCurrencyDesignations() {
+        return jdbcTemplate.query("SELECT charcode, name FROM \"Currency\"", new CurrencyMenuMapper());
     }
 
     public List<Currency> index() {
