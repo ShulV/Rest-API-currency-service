@@ -17,8 +17,12 @@ public class DayCurrencyService {
         this.dayCurrencyDAO = dayCurrencyDAO;
     }
 
-    public List<DayCurrency> getCurrenciesForPeriod(Date fromDate, Date toDate, String currencyName) {
-        return dayCurrencyDAO.getCurrenciesForPeriod(fromDate, toDate, currencyName);
+    public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String currencyName) {
+        List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, currencyName);
+
+//        TODO проверка на количество объектов
+
+        return periodCurrencies;
     }
 
 }

@@ -20,15 +20,15 @@ public class XMLParser {
 
     //нэйминг поправить (startDate, endDate, currencyId)
     //return List<CurrencyRate>
-    public static void xmlConnectPeriod(Date date1, Date date2, String NameID) throws IOException {
+    public static void xmlConnectPeriod(Date startDate, Date endDate, String NameID) throws IOException {
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        System.out.println(dateFormat.format(date1) + " - " + dateFormat.format(date2));
+        System.out.println(dateFormat.format(startDate) + " - " + dateFormat.format(endDate));
 
-        String html = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(date1)
-                + "&date_req2=" + dateFormat.format(date2)+"&VAL_NM_RQ=R0" + NameID;
+        String xml = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
+                + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=R0" + NameID;
         Document doc = Jsoup
-                .connect(html)
+                .connect(xml)
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
                 .referrer("http://www.google.com")
                 .get();
@@ -50,9 +50,9 @@ public class XMLParser {
         List<String> CharCodeList = new ArrayList<>();
         List<String> NameList = new ArrayList<>();
 
-        String html = "http://www.cbr.ru/scripts/XML_daily.asp";
+        String xml = "http://www.cbr.ru/scripts/XML_daily.asp";
         Document doc = Jsoup
-                .connect(html)
+                .connect(xml)
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
                 .referrer("http://www.google.com")
                 .get();

@@ -24,7 +24,6 @@ public class DayCurrencyController {
     public List<DayCurrency> getCurrenciesForPeriod(@RequestParam(name="fromDate") Date fromDate,
                                                     @RequestParam(name="toDate") Date toDate,
                                                     @RequestParam(name="curName") String currencyName) {
-        System.out.println("<>>>>>>>>>>>>>>>>>>>>>>>>>>>>1>>>>>>>>>>>>>>>>>>");
-        return dayCurrencyService.getCurrenciesForPeriod(fromDate, toDate, currencyName);
+        return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, currencyName);
     }
 }

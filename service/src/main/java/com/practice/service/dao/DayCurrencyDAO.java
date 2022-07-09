@@ -34,7 +34,7 @@ public class DayCurrencyDAO {
                 .stream().findAny().orElse(null);
     }
 
-    public List<DayCurrency> getCurrenciesForPeriod(Date fromDate, Date toDate, String currencyName) {
+    public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String currencyName) {
         System.out.println("<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, dc.\"PK_id\"\n" +
                         "FROM \"DayCurrency\" as dc\n" +
