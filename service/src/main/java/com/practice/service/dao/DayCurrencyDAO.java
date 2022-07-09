@@ -23,19 +23,13 @@ public class DayCurrencyDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<DayCurrency> index() {
+    public List<DayCurrency> getAll() {
         return jdbcTemplate.query("SELECT * FROM DayCurrency",
                 new BeanPropertyRowMapper<>(DayCurrency.class));
     }
 
-    public DayCurrency get(int PK_id) {
-        return jdbcTemplate.query("SELECT * FROM DayCurrency WHERE PK_id=?",
-                        new Object[]{PK_id}, new BeanPropertyRowMapper<>(DayCurrency.class))
-                .stream().findAny().orElse(null);
-    }
-
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String currencyName) {
-        System.out.println("<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
         return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, dc.\"PK_id\"\n" +
                         "FROM \"DayCurrency\" as dc\n" +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +
@@ -46,9 +40,16 @@ public class DayCurrencyDAO {
 
     }
 
+    public void insert(DayCurrency dayCurrency, String currencyName) {
+        Double value = dayCurrency.getValue();
+        Date date = dayCurrency.getDate();
+        int nominal = dayCurrency.getNominal();
+        String pkId = dayCurrency.getPK_id();
 
-//    public void save(DayCurrency dayCurrency) {
-//        jdbcTemplate.update("INSERT INTO DayCurrency VALUES(?, ?, ?, ?)", dayCurrency.get)
-//    }
+        jdbcTemplate.update("INSERT INTO \"DayCurrency\"(value, date, nominal, \"PK_id\")" +
+                "VALUES (?, ?, ?, (SELECT \"PK_id\" FROM public.\"Currency\"" +
+                        "where name=?));",
+                value, date, nominal, currencyName);
+    }
 
 }

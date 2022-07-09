@@ -4,6 +4,7 @@ import com.practice.service.model.Currency;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class XMLParser {
     public static void main(String[] args) throws IOException {
         xmlConnectPeriod(new Date(2022-1900, 0, 1),new Date(2022-1900, 0, 30),"1235");

@@ -6,7 +6,6 @@ public class Currency {
     private String charCode;
 
     private String name;
-
     public Currency() {
     }
 
