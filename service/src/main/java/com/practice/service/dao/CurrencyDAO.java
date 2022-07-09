@@ -23,8 +23,7 @@ public class CurrencyDAO {
 
     // Получение списка названия валют для раскрывающегося меню
     public List<String> getAllCurrencyNames() {
-        return jdbcTemplate.query("SELECT name FROM \"Currency\"",
-                ResultSet::getString);
+        return jdbcTemplate.query("SELECT name FROM \"Currency\"", new CurrencyMapper());
     }
 
     public List<Currency> index() {

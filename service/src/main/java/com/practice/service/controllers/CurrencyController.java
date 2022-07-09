@@ -1,7 +1,6 @@
 package com.practice.service.controllers;
 
-import com.practice.service.CurrencyService;
-import com.practice.service.dao.CurrencyDAO;
+import com.practice.service.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
