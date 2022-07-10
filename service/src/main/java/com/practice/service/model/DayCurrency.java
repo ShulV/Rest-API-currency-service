@@ -21,6 +21,12 @@ public class DayCurrency {
         this.PK_id = PK_id;
     }
 
+    public DayCurrency(double value, Date date, int nominal) {
+        this.value = value;
+        this.date = date;
+        this.nominal = nominal;
+    }
+
     public int getPK_daycur() {
         return PK_daycur;
     }

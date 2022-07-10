@@ -1,6 +1,7 @@
 package com.practice.service.parser;
 
 import com.practice.service.model.Currency;
+import com.practice.service.model.DayCurrency;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,26 +9,27 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
 @Component
 public class XMLParser {
-    public static void main(String[] args) throws IOException {
-        //xmlConnectPeriod(new Date(2022-1900, 0, 1),new Date(2022-1900, 0, 30),"R01010");
-        //xmlInitializeCurrency();
-    }
 
+    public List<DayCurrency> xmlConnectPeriod(Date startDate, Date endDate, String currencyID) throws IOException, ParseException {
+        List<DayCurrency> dayCurrencyList = new ArrayList<>();
 
-    public List<Currency> xmlConnectPeriod(Date startDate, Date endDate, String currencyID) throws IOException {
-        List<Currency> currenciesList = new ArrayList<>();
+        List<Double> valueList = new ArrayList<>();
+        List<Integer> nominalList = new ArrayList<>();
+        List<Date> dateList = new ArrayList<>();
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        System.out.println(dateFormat.format(startDate) + " - " + dateFormat.format(endDate));
+        DateFormat fromFormat = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         String xml = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
                 + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=" + currencyID;
@@ -39,12 +41,27 @@ public class XMLParser {
         doc = Jsoup.parse(String.valueOf(doc));
 
         for (Element e : doc.select("Value")) {
-            System.out.println(e.text());
+            valueList.add(Double.parseDouble((e.text().replace(",","."))));
         }
-        return currenciesList;
+
+        for (Element e : doc.select("Nominal")) {
+            nominalList.add(parseInt(e.text()));
+        }
+
+        for (Element e : doc.select("Record")) {
+            dateList.add(Date.valueOf(myFormat.format(fromFormat.parse(e.attr("Date")))));
+        }
+
+        for(int i = 0; i < nominalList.size(); i++){
+            dayCurrencyList.add(new DayCurrency(
+                    valueList.get(i),
+                    dateList.get(i),
+                    nominalList.get(i)
+                    ));
+        }
+        return dayCurrencyList;
     }
 
-    //static в общем случае лучше не юзать
     public List<Currency> xmlInitializeCurrency() throws IOException {
 
         List<Currency> currencyList = new ArrayList<>();
@@ -84,10 +101,6 @@ public class XMLParser {
                             CharCodeList.get(i),
                             NameList.get(i)));
         }
-
-//        for (Currency currency: currencyList) {
-//            System.out.println(currency.toString());
-//        }
 
         return currencyList;
     }
