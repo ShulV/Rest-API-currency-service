@@ -16,19 +16,19 @@ import java.util.List;
 @Component
 public class XMLParser {
     public static void main(String[] args) throws IOException {
-        xmlConnectPeriod(new Date(2022-1900, 0, 1),new Date(2022-1900, 0, 30),"1235");
-        xmlInitializeCurrency();
+        //xmlConnectPeriod(new Date(2022-1900, 0, 1),new Date(2022-1900, 0, 30),"R01010");
+        //xmlInitializeCurrency();
     }
 
-    //нэйминг поправить (startDate, endDate, currencyId)
-    //return List<CurrencyRate>
-    public static void xmlConnectPeriod(Date startDate, Date endDate, String NameID) throws IOException {
+
+    public List<Currency> xmlConnectPeriod(Date startDate, Date endDate, String currencyID) throws IOException {
+        List<Currency> currenciesList = new ArrayList<>();
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println(dateFormat.format(startDate) + " - " + dateFormat.format(endDate));
 
         String xml = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
-                + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=R0" + NameID;
+                + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=" + currencyID;
         Document doc = Jsoup
                 .connect(xml)
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
@@ -39,13 +39,13 @@ public class XMLParser {
         for (Element e : doc.select("Value")) {
             System.out.println(e.text());
         }
-
+        return currenciesList;
     }
 
     //static в общем случае лучше не юзать
-    public static void xmlInitializeCurrency() throws IOException {
+    public List<Currency> xmlInitializeCurrency() throws IOException {
 
-        List<Currency> currenciesList = new ArrayList<>();
+        List<Currency> currencyList = new ArrayList<>();
 
         List<String> IDList = new ArrayList<>();
         List<String> NumCodeList = new ArrayList<>();
@@ -62,6 +62,7 @@ public class XMLParser {
         for (Element e : doc.select("Valute")) {
             IDList.add(e.attr("ID"));
         }
+
         for (Element e : doc.select("NumCode")) {
             NumCodeList.add(e.text());
         }
@@ -75,15 +76,17 @@ public class XMLParser {
         }
 
         for(int i = 0; i < NameList.size(); i++){
-            currenciesList.add(new Currency(
+            currencyList.add(new Currency(
                             IDList.get(i),
                             NumCodeList.get(i),
                             CharCodeList.get(i),
                             NameList.get(i)));
         }
 
-        for (Currency currency: currenciesList) {
+        for (Currency currency: currencyList) {
             System.out.println(currency.toString());
         }
+
+        return currencyList;
     }
 }
