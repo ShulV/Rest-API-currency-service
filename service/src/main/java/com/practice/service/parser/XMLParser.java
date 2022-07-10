@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @Component
 public class XMLParser {
     public static void main(String[] args) throws IOException {
@@ -48,7 +50,7 @@ public class XMLParser {
         List<Currency> currencyList = new ArrayList<>();
 
         List<String> IDList = new ArrayList<>();
-        List<String> NumCodeList = new ArrayList<>();
+        List<Integer> NumCodeList = new ArrayList<>();
         List<String> CharCodeList = new ArrayList<>();
         List<String> NameList = new ArrayList<>();
 
@@ -64,7 +66,7 @@ public class XMLParser {
         }
 
         for (Element e : doc.select("NumCode")) {
-            NumCodeList.add(e.text());
+            NumCodeList.add(parseInt(e.text()));
         }
 
         for (Element e : doc.select("CharCode")) {
@@ -83,9 +85,9 @@ public class XMLParser {
                             NameList.get(i)));
         }
 
-        for (Currency currency: currencyList) {
-            System.out.println(currency.toString());
-        }
+//        for (Currency currency: currencyList) {
+//            System.out.println(currency.toString());
+//        }
 
         return currencyList;
     }

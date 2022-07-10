@@ -20,6 +20,7 @@ public class DayCurrencyService {
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String currencyName) {
         List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, currencyName);
 
+
 //        TODO проверка на количество объектов, если в периоде не хватает данных по определенным датам,
 //        TODO находим все недостающие периоды (или дни)
 //        TODO парсим по этим периодам (не в одном запросе) [можно юзануть асинхронность]

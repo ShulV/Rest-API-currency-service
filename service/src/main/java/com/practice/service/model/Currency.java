@@ -2,14 +2,14 @@ package com.practice.service.model;
 
 public class Currency {
     private String PK_id;
-    private String numCode;
+    private int numCode;
     private String charCode;
 
     private String name;
     public Currency() {
     }
 
-    public Currency(String PK_id, String numCode, String charCode, String name) {
+    public Currency(String PK_id,int numCode, String charCode, String name) {
         this.PK_id = PK_id;
         this.numCode = numCode;
         this.charCode = charCode;
@@ -23,11 +23,11 @@ public class Currency {
 
     public void setPK_Id(String PK_id) { this.PK_id = PK_id; }
 
-    public String getNumCode() {
+    public int getNumCode() {
         return numCode;
     }
 
-    public void setNumCode(String numCode) { this.numCode = numCode; }
+    public void setNumCode(int numCode) { this.numCode = numCode; }
 
     public String getCharCode() {
         return charCode;

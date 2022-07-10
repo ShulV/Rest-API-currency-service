@@ -1,10 +1,12 @@
 package com.practice.service.services;
 
 import com.practice.service.dao.CurrencyDAO;
+import com.practice.service.model.Currency;
 import com.practice.service.model.CurrencyMenuItem;
 import com.practice.service.parser.XMLParser;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -19,5 +21,20 @@ public class CurrencyService {
         return currencyDAO.getAllCurrencyDesignations();
     }
 
+    public void initDB() throws IOException {
+        List<Currency> currencyListDB = currencyDAO.getAll();
+        List<Currency> currencyListFromParser = xmlParser.xmlInitializeCurrency();
+        if (currencyListDB.size() == currencyListFromParser.size()) {
+            System.out.println("equal");
+            System.out.println("Parser" + (currencyListFromParser.size()));
+            System.out.println("DB" + (currencyListDB.size()));
+        } else {
+            System.out.println("Parser" + (currencyListFromParser.size()));
+            System.out.println("DB" + (currencyListDB.size()));
+            currencyDAO.batchCurrencyUpdate(currencyListFromParser);
+
+
+        }
+    }
 //    TODO сравнивать каждые 10 минут все записи в таблице Currency, добавлять недостающие
 }
