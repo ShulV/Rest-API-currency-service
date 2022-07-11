@@ -24,7 +24,7 @@ public class CurrencyController {
         return currencyService.getAllCurrencyDesignations();
     }
 
-        @GetMapping(value = "/testDB", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/testDB", produces = MediaType.APPLICATION_JSON_VALUE)
     public String testDB() throws IOException {
 //        dayCurrencyService.insert(new DayCurrency(444, 77.77, new Date(1999, 12, 12), 100, "pk33"), "Евро");
         currencyService.initDB();
