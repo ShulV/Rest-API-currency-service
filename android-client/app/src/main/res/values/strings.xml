@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidClientApp</string>
+    <string name="server_url">http://192.168.1.4:8080</string>
 </resources>
