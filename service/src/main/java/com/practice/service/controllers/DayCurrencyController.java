@@ -23,8 +23,8 @@ public class DayCurrencyController {
     @GetMapping(value = "/period-currencies", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DayCurrency> getCurrenciesForPeriod(@RequestParam(name="fromDate") Date fromDate,
                                                     @RequestParam(name="toDate") Date toDate,
-                                                    @RequestParam(name="curName") String currencyName) {
-        return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, currencyName);
+                                                    @RequestParam(name="charcode") String charcode) {
+        return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, charcode);
     }
 
 //    @GetMapping(value = "/testDB", produces = MediaType.APPLICATION_JSON_VALUE)

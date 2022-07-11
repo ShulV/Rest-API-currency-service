@@ -28,14 +28,14 @@ public class DayCurrencyDAO {
                 new BeanPropertyRowMapper<>(DayCurrency.class));
     }
 
-    public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String currencyName) {
+    public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) {
 
         return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, dc.\"PK_id\"\n" +
                         "FROM \"DayCurrency\" as dc\n" +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +
-                        "where name = ? and\n" +
+                        "where charcode = ? and\n" +
                         "Date between ? and ?;",
-                new Object[]{currencyName, fromDate, toDate},
+                new Object[]{charcode, fromDate, toDate},
                 new BeanPropertyRowMapper<>(DayCurrency.class)).stream().toList();
 
     }

@@ -17,8 +17,8 @@ public class DayCurrencyService {
         this.dayCurrencyDAO = dayCurrencyDAO;
     }
 
-    public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String currencyName) {
-        List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, currencyName);
+    public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) {
+        List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
 
 
 //        TODO проверка на количество объектов, если в периоде не хватает данных по определенным датам,
