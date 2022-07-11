@@ -1,4 +1,4 @@
-package com.practice.service.dao;
+package com.practice.service.dao.mappers;
 
 import com.practice.service.model.Currency;
 import org.springframework.jdbc.core.RowCallbackHandler;

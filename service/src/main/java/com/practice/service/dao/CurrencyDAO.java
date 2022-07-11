@@ -1,19 +1,17 @@
 package com.practice.service.dao;
 
+import com.practice.service.dao.mappers.CurrencyIdCharcodeMapper;
+import com.practice.service.dao.mappers.CurrencyMapper;
+import com.practice.service.dao.mappers.CurrencyMenuMapper;
 import com.practice.service.model.Currency;
 import com.practice.service.model.CurrencyMenuItem;
-import com.practice.service.model.DayCurrency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

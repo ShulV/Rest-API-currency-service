@@ -2,7 +2,7 @@ package com.practice.service.model;
 
 import java.sql.Date;
 
-public class DayCurrency {
+public class DayCurrency implements Cloneable {
     private int PK_daycur;
     private double value;
     private Date date;
@@ -76,5 +76,18 @@ public class DayCurrency {
                 ", nominal=" + nominal +
                 ", PK_id='" + PK_id + '\'' +
                 '}';
+    }
+
+    @Override
+    public DayCurrency clone() {
+        try {
+            // Глубокое копирование
+            DayCurrency clone = (DayCurrency) super.clone();
+            Date date = (Date) this.getDate().clone();
+            clone.setDate(date);
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

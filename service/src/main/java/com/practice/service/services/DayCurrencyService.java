@@ -50,20 +50,44 @@ public class DayCurrencyService {
     }
 
     private void fillInEmptyLines(List<DayCurrency> dayCurrencyList) {
-        List<DayCurrency> newDayCurrencyList = new ArrayList<>();
-        Date currencyDate;
-
-        currencyDate = dayCurrencyList.get(0).getDate();
-        System.out.println("Date: " + currencyDate);
-//        TODO вынести в конфиг MS_IN_DAY
+        //TODO перенести в константы
         int MS_IN_DAY = 1000*60*60*24;
-        currencyDate.setTime(currencyDate.getTime() + MS_IN_DAY);
-        System.out.println("Date after a 1 day adding: " + currencyDate);
-//        TODO дописать метод (в цикле сравнивать дату с инкрементированной, пока не дошел до toDate,
-//        TODO конкатенировать 2 списка и заинсертить это в базу
-//        for (DayCurrency dayCurrency: dayCurrencyList
-//             ) {
-//        }
+
+
+        printList(dayCurrencyList);//TODO для дебага
+
+        Date startDate = dayCurrencyList.get(0).getDate(); // Начальная дата запрашиваемого периода
+        Date endDate = dayCurrencyList.get(dayCurrencyList.size() - 1).getDate(); // Конечная дата запрашиваемого периода
+        DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone(); // Предыдущий объект для инициализации незаполненных дней
+        List<DayCurrency> newDayCurrencyList = new ArrayList<>(); // Коллекция недостающих незаполненных дней
+
+        int elemNum=0;
+        // Проходим по валютам для каждого дня из периода
+        while(startDate.compareTo(endDate) != 0) {
+            // Если данных для текущей даты нет в коллекции, копируем предыдущий dayCurrencyList в текущий
+            if(dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
+                prevDayCurrency.setDate(startDate);
+                newDayCurrencyList.add(prevDayCurrency);
+                //System.out.println("add " + prevDayCurrency.clone());
+            }
+            else {
+                prevDayCurrency = dayCurrencyList.get(elemNum).clone();
+                elemNum++;
+                //System.out.println("prev = " + prevDayCurrency.clone());
+            }
+            startDate.setTime(startDate.getTime() + MS_IN_DAY);
+        }
+        dayCurrencyList.addAll(newDayCurrencyList); // Объединение коллекций
+        System.out.println("\n\n\n");
+        printList(newDayCurrencyList);//TODO для дебага
+    }
+
+//TODO для дебага
+    private void printList(List<DayCurrency> dayCurrencyList) {
+        for (DayCurrency dc: dayCurrencyList
+             ) {
+            System.out.println(dc);
+        }
     }
 
 }
