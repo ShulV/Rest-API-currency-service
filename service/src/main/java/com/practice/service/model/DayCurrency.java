@@ -66,4 +66,15 @@ public class DayCurrency {
     public void setPK_id(String PK_id) {
         this.PK_id = PK_id;
     }
+
+    @Override
+    public String toString() {
+        return "DayCurrency{" +
+                "PK_daycur=" + PK_daycur +
+                ", value=" + value +
+                ", date=" + date +
+                ", nominal=" + nominal +
+                ", PK_id='" + PK_id + '\'' +
+                '}';
+    }
 }
