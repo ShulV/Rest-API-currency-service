@@ -20,7 +20,8 @@ import static java.lang.Integer.parseInt;
 @Component
 public class XMLParser {
 
-    public List<DayCurrency> xmlConnectPeriod(Date startDate, Date endDate, String currencyID) throws IOException, ParseException {
+    public List<DayCurrency> xmlConnectPeriod(Date startDate,
+                                              Date endDate, String currencyID) throws IOException, ParseException {
         List<DayCurrency> dayCurrencyList = new ArrayList<>();
 
         List<Double> valueList = new ArrayList<>();

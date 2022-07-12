@@ -30,7 +30,7 @@ public class DayCurrencyService {
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) throws IOException, ParseException {
         String curId = currencyDAO.getIdByCharcode(charcode);
         List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
-        List<DayCurrency> dayCurrencyList = new ArrayList<>();
+        List<DayCurrency> dayCurrencyList;
         if (periodCurrencies.size() > 0) {
             List<Date> missingDateList = getMissingDates(fromDate, toDate, periodCurrencies);
             if (missingDateList.size() == 0) {
@@ -45,15 +45,10 @@ public class DayCurrencyService {
 
             fillInEmptyLines(minDate, maxDate, dayCurrencyList);
 
-            for (DayCurrency dc : dayCurrencyList
-                 ) {
-                if(! missingDateList.contains(dc.getDate())) {
-                    dayCurrencyList.remove(dc);
-                }
-            }
+            dayCurrencyList.removeIf(dc -> !missingDateList.contains(dc.getDate()));
         }
         else {
-            dayCurrencyList = xmlParser.xmlConnectPeriod(fromDate, toDate, charcode);
+            dayCurrencyList = xmlParser.xmlConnectPeriod(fromDate, toDate, curId);
             fillInEmptyLines(fromDate, toDate, dayCurrencyList);
         }
         dayCurrencyDAO.batchDayCurrencyUpdate(dayCurrencyList, charcode);
@@ -77,7 +72,8 @@ public class DayCurrencyService {
         // Проходим по валютам для каждого дня из периода
         while (startDate.compareTo(endDate) <= 0) {
             // Если данных для текущей даты нет в коллекции, копируем предыдущий dayCurrencyList в текущий
-            if (elemNum > dayCurrencyList.size() - 1 || dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
+            if (elemNum > dayCurrencyList.size() - 1 ||
+                    dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
                 prevDayCurrency.setDate(startDate);
                 newDayCurrencyList.add(prevDayCurrency.clone());
             } else {
