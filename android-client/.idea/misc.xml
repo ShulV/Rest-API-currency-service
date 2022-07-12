@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming/JavaPrograms/sber-practice/android-client/app/src/main/res/drawable/selector.xml" value="0.3828125" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/android-client/app/src/main/res/layout/activity_main.xml" value="0.245018115942029" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/android-client/app/src/main/res/layout/toolbar.xml" value="0.245018115942029" />
+        <entry key="..\:/Programming/JavaPrograms/sber-practice/android-client/app/src/main/res/menu/menu_navigation.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

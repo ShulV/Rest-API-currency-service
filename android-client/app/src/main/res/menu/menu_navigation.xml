@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainItem"
+        android:title="@string/text_MainForm"
+        android:icon="@drawable/ic_action_home"/>
+    <item
+        android:id="@+id/home"
+        android:title="@string/text_ForPeriod"
+        android:icon="@drawable/ic_action_for_period"/>
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/text_Other"
+        android:icon="@drawable/ic_action_other"/>
+
+</menu>
