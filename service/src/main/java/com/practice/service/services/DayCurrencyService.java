@@ -49,7 +49,12 @@ public class DayCurrencyService {
         }
         else {
             dayCurrencyList = xmlParser.xmlConnectPeriod(fromDate, toDate, curId);
-            fillInEmptyLines(fromDate, toDate, dayCurrencyList);
+            if (dayCurrencyList.isEmpty()) {
+                dayCurrencyList = fillEmptyList(dayCurrencyList, fromDate, toDate, curId);
+            }
+            else {
+                fillInEmptyLines(fromDate, toDate, dayCurrencyList);
+            }
         }
         dayCurrencyDAO.batchDayCurrencyUpdate(dayCurrencyList, charcode);
         return dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
@@ -62,11 +67,14 @@ public class DayCurrencyService {
     private void fillInEmptyLines(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
         //TODO перенести в константы
         int MS_IN_DAY = 1000 * 60 * 60 * 24;
-
-        Date startDate = (Date) fromDate.clone(); // Начальная дата запрашиваемого периода
-        Date endDate = (Date) toDate.clone(); // Конечная дата запрашиваемого периода
-        DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone(); // Предыдущий объект для инициализации незаполненных дней
-        List<DayCurrency> newDayCurrencyList = new ArrayList<>(); // Коллекция недостающих незаполненных дней
+        // Начальная дата запрашиваемого периода.
+        Date startDate = (Date) fromDate.clone();
+        // Конечная дата запрашиваемого периода.
+        Date endDate = (Date) toDate.clone();
+        // Предыдущий объект для инициализации незаполненных дней.
+        DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone();
+        // Коллекция недостающих незаполненных дней.
+        List<DayCurrency> newDayCurrencyList = new ArrayList<>();
 
         int elemNum = 0;
         // Проходим по валютам для каждого дня из периода
@@ -83,6 +91,32 @@ public class DayCurrencyService {
             startDate.setTime(startDate.getTime() + MS_IN_DAY);
         }
         dayCurrencyList.addAll(newDayCurrencyList);// Объединение коллекций
+    }
+
+    private List<DayCurrency> fillEmptyList(List<DayCurrency> dayCurrencyList,
+                                            Date fromDate, Date toDate,
+                                            String currencyId ) throws IOException, ParseException {
+        int MS_IN_DAY = 1000 * 60 * 60 * 24;
+        // Начальная дата запрашиваемого периода.
+        Date startDate = (Date) fromDate.clone();
+        // Конечная дата запрашиваемого периода
+        Date endDate = (Date) toDate.clone();
+        while (dayCurrencyList.isEmpty()) {
+            // Расширение периода влево на 10 дней (в прошлое).
+            startDate.setTime(startDate.getTime() - 10 * MS_IN_DAY);
+            dayCurrencyList = xmlParser.xmlConnectPeriod(startDate, endDate, currencyId);
+        }
+
+        DayCurrency prevDayCurrency = dayCurrencyList.get(dayCurrencyList.size() - 1).clone();
+        startDate = (Date) fromDate.clone();
+        List<DayCurrency> newCurrencyList = new ArrayList<>();
+        // Проходим по валютам для каждого дня из периода
+        while (startDate.compareTo(endDate) <= 0) {
+            prevDayCurrency.setDate(startDate);
+            newCurrencyList.add(prevDayCurrency.clone());
+            startDate.setTime(startDate.getTime() + MS_IN_DAY);
+        }
+        return newCurrencyList;
     }
 
     private List<Date> getMissingDates(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
