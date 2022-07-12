@@ -37,7 +37,8 @@ public class DayCurrencyDAO {
                         "FROM \"DayCurrency\" as dc\n" +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +
                         "where charcode = ? and\n" +
-                        "Date between ? and ?;",
+                        "Date between ? and ?" +
+                        "ORDER BY date;",
                 new Object[]{charcode, fromDate, toDate},
                 new BeanPropertyRowMapper<>(DayCurrency.class)).stream().toList();
 
