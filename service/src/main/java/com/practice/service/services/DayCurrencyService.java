@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -28,35 +29,58 @@ public class DayCurrencyService {
 
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) throws IOException, ParseException {
         String curId = currencyDAO.getIdByCharcode(charcode);
-        List<DayCurrency> dayCurrencyList = xmlParser.xmlConnectPeriod(fromDate, toDate, curId);
-        fillInEmptyLines(dayCurrencyList);
-        dayCurrencyDAO.batchDayCurrencyUpdate(dayCurrencyList, charcode);
         List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
-        return periodCurrencies;
+        List<DayCurrency> dayCurrencyList = new ArrayList<>();
+        if (periodCurrencies.size() > 0) {
+            List<Date> missingDateList = getMissingDates(fromDate, toDate, periodCurrencies);
+            if (missingDateList.size() == 0) {
+                return periodCurrencies;
+            }
+            missingDateList.sort(java.util.Date::compareTo);
+
+            Date minDate = missingDateList.get(0);
+            Date maxDate = missingDateList.get(missingDateList.size() - 1);
+
+            dayCurrencyList = xmlParser.xmlConnectPeriod(minDate, maxDate, curId);
+
+            fillInEmptyLines(minDate, maxDate, dayCurrencyList);
+
+            for (DayCurrency dc : dayCurrencyList
+                 ) {
+                if(! missingDateList.contains(dc.getDate())) {
+                    dayCurrencyList.remove(dc);
+                }
+            }
+        }
+        else {
+            dayCurrencyList = xmlParser.xmlConnectPeriod(fromDate, toDate, charcode);
+            fillInEmptyLines(fromDate, toDate, dayCurrencyList);
+        }
+        dayCurrencyDAO.batchDayCurrencyUpdate(dayCurrencyList, charcode);
+        return dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
     }
 
     public void insert(DayCurrency dayCurrency, String currencyName) {
         dayCurrencyDAO.insert(dayCurrency, currencyName);
     }
 
-    private void fillInEmptyLines(List<DayCurrency> dayCurrencyList) {
+    private void fillInEmptyLines(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
         //TODO перенести в константы
-        int MS_IN_DAY = 1000*60*60*24;
+        int MS_IN_DAY = 1000 * 60 * 60 * 24;
 
-        Date startDate = dayCurrencyList.get(0).clone().getDate(); // Начальная дата запрашиваемого периода
-        Date endDate = dayCurrencyList.get(dayCurrencyList.size() - 1).clone().getDate(); // Конечная дата запрашиваемого периода
+        Date startDate = (Date) fromDate.clone(); // Начальная дата запрашиваемого периода
+        Date endDate = (Date) toDate.clone(); // Конечная дата запрашиваемого периода
         DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone(); // Предыдущий объект для инициализации незаполненных дней
         List<DayCurrency> newDayCurrencyList = new ArrayList<>(); // Коллекция недостающих незаполненных дней
 
-        int elemNum=0;
+        int elemNum = 0;
         // Проходим по валютам для каждого дня из периода
-        while(startDate.compareTo(endDate) != 0) {
+        while (startDate.compareTo(endDate) <= 0) {
             // Если данных для текущей даты нет в коллекции, копируем предыдущий dayCurrencyList в текущий
-            if(dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
+            if (elemNum > dayCurrencyList.size() - 1 || dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
                 prevDayCurrency.setDate(startDate);
                 newDayCurrencyList.add(prevDayCurrency.clone());
-            }
-            else {
+            } else {
                 prevDayCurrency = dayCurrencyList.get(elemNum).clone();
                 elemNum++;
             }
@@ -64,6 +88,28 @@ public class DayCurrencyService {
         }
         dayCurrencyList.addAll(newDayCurrencyList);// Объединение коллекций
     }
+
+    private List<Date> getMissingDates(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
+        //TODO перенести в константы
+        int MS_IN_DAY = 1000 * 60 * 60 * 24;
+
+        Date startDate = (Date) fromDate.clone(); // Начальная дата запрашиваемого периода
+        Date endDate = (Date) toDate.clone(); // Конечная дата запрашиваемого периода
+        List<Date> missingDateList = new ArrayList<>(); // Коллекция недостающих незаполненных дней
+
+        int elemNum = 0;
+        // Проходим по валютам для каждого дня из периода
+        while (startDate.compareTo(endDate) <= 0) {
+            if (elemNum > dayCurrencyList.size() - 1 || dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
+                missingDateList.add((Date) startDate.clone());
+            } else {
+                elemNum++;
+            }
+            startDate.setTime(startDate.getTime() + MS_IN_DAY);
+        }
+        return missingDateList;
+    }
+
 
 ////TODO для дебага
 //    private void printList(List<DayCurrency> dayCurrencyList) {
