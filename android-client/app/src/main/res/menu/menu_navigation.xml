@@ -6,12 +6,12 @@
         android:title="@string/text_MainForm"
         android:icon="@drawable/ic_action_home"/>
     <item
-        android:id="@+id/home"
+        android:id="@+id/forPeriod"
         android:title="@string/text_ForPeriod"
         android:icon="@drawable/ic_action_for_period"/>
 
     <item
-        android:id="@+id/about"
+        android:id="@+id/other"
         android:title="@string/text_Other"
         android:icon="@drawable/ic_action_other"/>
 
