@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SberClientAndroidApp</string>
+    <string name="title_main_page">Главная</string>
+    <string name="title_for_period_page">За период</string>
+    <string name="title_other_page">Другое</string>
+    <string name="server_url">http://192.168.1.4:8080</string>
+</resources>

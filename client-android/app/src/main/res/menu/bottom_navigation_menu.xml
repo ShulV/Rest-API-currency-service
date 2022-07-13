@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_main_page"
+        android:icon="@drawable/ic_main_page"
+        android:title="@string/title_main_page" />
+
+    <item
+        android:id="@+id/navigation_for_period_page"
+        android:icon="@drawable/ic_for_period_page"
+        android:title="@string/title_for_period_page" />
+
+    <item
+        android:id="@+id/navigation_other_page"
+        android:icon="@drawable/ic_other_page"
+        android:title="@string/title_other_page" />
+
+</menu>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_main_page">
+
+    <fragment
+        android:id="@+id/navigation_main_page"
+        android:name="com.practice.sberclientandroidapp.ui.main_page.MainPageFragment"
+        android:label="@string/title_main_page"
+        tools:layout="@layout/fragment_main_page" />
+
+    <fragment
+        android:id="@+id/navigation_for_period_page"
+        android:name="com.practice.sberclientandroidapp.ui.for_period_page.ForPeriodFragment"
+        android:label="@string/title_for_period_page"
+        tools:layout="@layout/fragment_for_period_page" />
+
+    <fragment
+        android:id="@+id/navigation_other_page"
+        android:name="com.practice.sberclientandroidapp.ui.other_page.OtherPageFragment"
+        android:label="@string/title_other_page"
+        tools:layout="@layout/fragment_other_page" />
+</navigation>
