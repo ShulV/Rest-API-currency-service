@@ -40,7 +40,7 @@ public class DayCurrencyService {
 
             dayCurrencyList = xmlParser.xmlConnectPeriod(minDate, maxDate, curId);
 
-            fillInEmptyLines(minDate, maxDate, dayCurrencyList);
+            fillInEmptyLines(minDate, maxDate, dayCurrencyList, curId);
 
             dayCurrencyList.removeIf(dc -> !missingDateList.contains(dc.getDate()));
         }
@@ -50,7 +50,7 @@ public class DayCurrencyService {
                 dayCurrencyList = fillEmptyList(dayCurrencyList, fromDate, toDate, curId);
             }
             else {
-                fillInEmptyLines(fromDate, toDate, dayCurrencyList);
+                fillInEmptyLines(fromDate, toDate, dayCurrencyList, curId);
             }
         }
         dayCurrencyDAO.batchDayCurrencyUpdate(dayCurrencyList, charcode);
@@ -61,17 +61,28 @@ public class DayCurrencyService {
         dayCurrencyDAO.insert(dayCurrency, currencyName);
     }
 
-    private void fillInEmptyLines(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
+    private void fillInEmptyLines(Date fromDate, Date toDate,
+                                  List<DayCurrency> dayCurrencyList,
+                                  String currencyId) throws IOException, ParseException {
         //TODO перенести в константы
         int MS_IN_DAY = 1000 * 60 * 60 * 24;
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
         // Конечная дата запрашиваемого периода.
         Date endDate = (Date) toDate.clone();
-        // Предыдущий объект для инициализации незаполненных дней.
-        DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone();
         // Коллекция недостающих незаполненных дней.
         List<DayCurrency> newDayCurrencyList = new ArrayList<>();
+        // Предыдущий объект для инициализации незаполненных дней.
+        if (!Objects.equals(dayCurrencyList.get(0).getDate().toString(), startDate.toString())) {
+            List<DayCurrency> startMissingDates = new ArrayList<>();
+            Date lastMissingDate = (Date) dayCurrencyList.get(0).getDate().clone();
+            lastMissingDate.setTime(lastMissingDate.getTime() - MS_IN_DAY);
+            startMissingDates = fillEmptyList(startMissingDates, fromDate,
+                    lastMissingDate, currencyId);
+            newDayCurrencyList.addAll(0, startMissingDates);
+            startDate = (Date) dayCurrencyList.get(0).getDate().clone();
+        }
+        DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone();
 
         int elemNum = 0;
         // Проходим по валютам для каждого дня из периода
@@ -88,7 +99,7 @@ public class DayCurrencyService {
                 elemNum++;
             }
             startDate.setTime(startDate.getTime() + MS_IN_DAY);
-//            startDate = stripTimePortion(startDate);
+            startDate = removeTime(startDate);
         }
         dayCurrencyList.addAll(newDayCurrencyList);// Объединение коллекций
     }
@@ -115,6 +126,7 @@ public class DayCurrencyService {
             prevDayCurrency.setDate(startDate);
             newCurrencyList.add(prevDayCurrency.clone());
             startDate.setTime(startDate.getTime() + MS_IN_DAY);
+            startDate = removeTime(startDate);
         }
         return newCurrencyList;
     }
@@ -130,20 +142,26 @@ public class DayCurrencyService {
         int elemNum = 0;
         // Проходим по валютам для каждого дня из периода
         while (startDate.compareTo(endDate) <= 0) {
-            if (elemNum > dayCurrencyList.size() - 1 || dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
+            if (elemNum > dayCurrencyList.size() - 1 ||
+                    !Objects.equals(dayCurrencyList.get(elemNum).getDate().toString(), startDate.toString())) {
                 missingDateList.add((Date) startDate.clone());
             } else {
                 elemNum++;
             }
             startDate.setTime(startDate.getTime() + MS_IN_DAY);
+            startDate = removeTime(startDate);
         }
         return missingDateList;
     }
 
-    private Date stripTimePortion(Date timestamp) {
-        long msInDay = 1000 * 60 * 60 * 24; // Number of milliseconds in a day
-        long msPortion = timestamp.getTime() % msInDay;
-        return new Date(timestamp.getTime() - msPortion);
+    public static Date removeTime(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return new java.sql.Date(cal.getTimeInMillis());
     }
 
 ////TODO для дебага
