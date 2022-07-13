@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DayCurrencyService {
@@ -81,14 +78,17 @@ public class DayCurrencyService {
         while (startDate.compareTo(endDate) <= 0) {
             // Если данных для текущей даты нет в коллекции, копируем предыдущий dayCurrencyList в текущий
             if (elemNum > dayCurrencyList.size() - 1 ||
-                    dayCurrencyList.get(elemNum).getDate().compareTo(startDate) != 0) {
-                prevDayCurrency.setDate(startDate);
+                    !Objects.equals(dayCurrencyList.get(elemNum).getDate().toString(), startDate.toString())) {
+                prevDayCurrency.setDate((Date) startDate.clone());
                 newDayCurrencyList.add(prevDayCurrency.clone());
+
             } else {
+
                 prevDayCurrency = dayCurrencyList.get(elemNum).clone();
                 elemNum++;
             }
             startDate.setTime(startDate.getTime() + MS_IN_DAY);
+//            startDate = stripTimePortion(startDate);
         }
         dayCurrencyList.addAll(newDayCurrencyList);// Объединение коллекций
     }
@@ -140,6 +140,11 @@ public class DayCurrencyService {
         return missingDateList;
     }
 
+    private Date stripTimePortion(Date timestamp) {
+        long msInDay = 1000 * 60 * 60 * 24; // Number of milliseconds in a day
+        long msPortion = timestamp.getTime() % msInDay;
+        return new Date(timestamp.getTime() - msPortion);
+    }
 
 ////TODO для дебага
 //    private void printList(List<DayCurrency> dayCurrencyList) {
