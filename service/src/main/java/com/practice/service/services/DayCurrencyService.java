@@ -65,7 +65,7 @@ public class DayCurrencyService {
                                   List<DayCurrency> dayCurrencyList,
                                   String currencyId) throws IOException, ParseException {
         //TODO перенести в константы
-        int MS_IN_DAY = 1000 * 60 * 60 * 24;
+        int MS_IN_DAY = 1000 * 60 * 60 * 25;
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
         // Конечная дата запрашиваемого периода.
@@ -106,7 +106,7 @@ public class DayCurrencyService {
     private List<DayCurrency> fillEmptyList(List<DayCurrency> dayCurrencyList,
                                             Date fromDate, Date toDate,
                                             String currencyId ) throws IOException, ParseException {
-        int MS_IN_DAY = 1000 * 60 * 60 * 24;
+        int MS_IN_DAY = 1000 * 60 * 60 * 25;
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
         // Конечная дата запрашиваемого периода
@@ -132,7 +132,7 @@ public class DayCurrencyService {
 
     private List<Date> getMissingDates(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
         //TODO перенести в константы
-        int MS_IN_DAY = 1000 * 60 * 60 * 24;
+        int MS_IN_DAY = 1000 * 60 * 60 * 25;
 
         Date startDate = (Date) fromDate.clone(); // Начальная дата запрашиваемого периода
         Date endDate = (Date) toDate.clone(); // Конечная дата запрашиваемого периода
@@ -147,6 +147,7 @@ public class DayCurrencyService {
             } else {
                 elemNum++;
             }
+
             startDate.setTime(startDate.getTime() + MS_IN_DAY);
             startDate = removeTime(startDate);
         }
