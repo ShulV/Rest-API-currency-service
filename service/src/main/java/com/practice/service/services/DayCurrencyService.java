@@ -82,6 +82,7 @@ public class DayCurrencyService {
             newDayCurrencyList.addAll(0, startMissingDates);
             startDate = (Date) dayCurrencyList.get(0).getDate().clone();
         }
+
         DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone();
 
         int elemNum = 0;
@@ -92,9 +93,7 @@ public class DayCurrencyService {
                     !Objects.equals(dayCurrencyList.get(elemNum).getDate().toString(), startDate.toString())) {
                 prevDayCurrency.setDate((Date) startDate.clone());
                 newDayCurrencyList.add(prevDayCurrency.clone());
-
             } else {
-
                 prevDayCurrency = dayCurrencyList.get(elemNum).clone();
                 elemNum++;
             }

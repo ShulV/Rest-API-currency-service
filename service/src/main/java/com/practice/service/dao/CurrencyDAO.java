@@ -49,7 +49,7 @@ public class CurrencyDAO {
                 });
     }
     public String getIdByCharcode(String charcode) {
-        return jdbcTemplate.query("SELECT * FROM \"Currency\" WHERE charcode =?",
+        return jdbcTemplate.query("SELECT * FROM \"Currency\" WHERE \"charcode\" =?",
                 new Object[]{charcode}, new CurrencyIdCharcodeMapper()).get(0);
     }
 

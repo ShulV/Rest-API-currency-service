@@ -33,12 +33,12 @@ public class DayCurrencyDAO {
 
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) {
 
-        return jdbcTemplate.query("SELECT \"PK_daycur\", value, date, nominal, dc.\"PK_id\"\n" +
+        return jdbcTemplate.query("SELECT \"PK_daycur\", \"value\", \"date\", \"nominal\", dc.\"PK_id\"\n" +
                         "FROM \"DayCurrency\" as dc\n" +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +
-                        "where charcode = ? and\n" +
-                        "Date between ? and ?" +
-                        "ORDER BY date;",
+                        "where \"charcode\" = ? and\n" +
+                        "\"date\" between ? and ?\n" +
+                        "ORDER BY \"date\";",
                 new Object[]{charcode, fromDate, toDate},
                 new BeanPropertyRowMapper<>(DayCurrency.class)).stream().toList();
 
@@ -50,17 +50,17 @@ public class DayCurrencyDAO {
         int nominal = dayCurrency.getNominal();
         String pkId = dayCurrency.getPK_id();
 
-        jdbcTemplate.update("INSERT INTO \"DayCurrency\"(value, date, nominal, \"PK_id\")" +
+        jdbcTemplate.update("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\")" +
                 "VALUES (?, ?, ?, (SELECT \"PK_id\" FROM public.\"Currency\"" +
-                        "where name=?));",
+                        "where \"name\"=?));",
                 value, date, nominal, currencyName);
     }
 
     public void batchDayCurrencyUpdate(List<DayCurrency> dayCurrencyList, String charcode) {
-        jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(value, date, nominal, \"PK_id\")" +
+        jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\")" +
                         "VALUES (?, ?, ?," +
                         "(SELECT \"PK_id\"" +
-                        "FROM \"Currency\" where charcode=?));",
+                        "FROM \"Currency\" where \"charcode\"=?));",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
