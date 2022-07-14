@@ -10,7 +10,7 @@ public class ForPeriodPageViewModel extends ViewModel {
 
     public ForPeriodPageViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Получение курса\nвалюты за период");
+        mText.setValue("Получение курса валюты за период");
     }
 
     public LiveData<String> getText() {
