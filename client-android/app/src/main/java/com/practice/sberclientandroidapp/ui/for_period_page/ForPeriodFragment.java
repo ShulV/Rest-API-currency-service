@@ -1,11 +1,13 @@
 package com.practice.sberclientandroidapp.ui.for_period_page;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,6 +65,29 @@ public class ForPeriodFragment extends Fragment {
         date = Calendar.getInstance();
 
         initializeDate();
+
+        View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        date.set(year, month, dayOfMonth);
+                        month++;
+                        String textDay = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+                        String textMonth = month < 10 ? "0" + month : String.valueOf(month);
+                        String textDate = textDay + "." + textMonth + "." + year;
+                        EditText currentEditText = (EditText) v;
+                        currentEditText.setText(textDate);
+                    }
+                }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        };
+
+        startPeriodDate.setOnClickListener(editTextOnClickListener);
+        endPeriodDate.setOnClickListener(editTextOnClickListener);
 
         return root;
     }
