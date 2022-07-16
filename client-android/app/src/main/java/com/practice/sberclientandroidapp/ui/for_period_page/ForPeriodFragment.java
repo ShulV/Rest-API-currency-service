@@ -24,10 +24,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.practice.sberclientandroidapp.R;
 import com.practice.sberclientandroidapp.api.CurrencyAPI;
+import com.practice.sberclientandroidapp.api.DayCurrencyAPI;
 import com.practice.sberclientandroidapp.databinding.FragmentForPeriodPageBinding;
 import com.practice.sberclientandroidapp.model.CurrencyMenuItem;
 import com.practice.sberclientandroidapp.retrofit.RetrofitService;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -97,6 +101,17 @@ public class ForPeriodFragment extends Fragment {
 
         startPeriodDate.setOnClickListener(editTextOnClickListener);
         endPeriodDate.setOnClickListener(editTextOnClickListener);
+        getCurrenciesForPeriodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isDataCorrect()) {
+                    loadCurrenciesForPeriod();
+                }
+                else {
+
+                }
+            }
+        });
 
         return root;
     }
@@ -127,6 +142,13 @@ public class ForPeriodFragment extends Fragment {
                 });
     }
 
+    private void loadCurrenciesForPeriod() {
+        DateFormat outDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date startDate = Date.valueOf(startPeriodDate.getText().toString());
+        DayCurrencyAPI dayCurrencyAPI = retrofitService.getRetrofit().create(DayCurrencyAPI.class);
+        //dayCurrencyAPI.getCurrenciesForPeriod();
+    }
+
     private void populateSpinner(List<CurrencyMenuItem> responseBody) {
         Spinner spinner = requireView().findViewById(R.id.spinner);
         List<String> currencyDesignations = new ArrayList<>();
@@ -146,6 +168,10 @@ public class ForPeriodFragment extends Fragment {
         endPeriodDate.setText(DateUtils.formatDateTime(getActivity(),
                 date.getTimeInMillis(),
                 DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+    }
+
+    private boolean isDataCorrect() {
+        return true;
     }
 
     @Override
