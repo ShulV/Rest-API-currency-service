@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.practice.sberclientandroidapp.R;
 import com.practice.sberclientandroidapp.api.CurrencyAPI;
@@ -38,9 +41,12 @@ public class ForPeriodFragment extends Fragment {
     private ForPeriodPageViewModel forPeriodPageViewModel;
     private FragmentForPeriodPageBinding binding;
     RetrofitService retrofitService = new RetrofitService();
+    private List<CurrencyMenuItem> currencyDesignations;
     private EditText startPeriodDate;
     private EditText endPeriodDate;
     private Calendar date;
+    private Button getCurrenciesForPeriodButton;
+    private RecyclerView dayCurrencyRecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +71,9 @@ public class ForPeriodFragment extends Fragment {
         date = Calendar.getInstance();
 
         initializeDate();
+
+        dayCurrencyRecyclerView = root.findViewById(R.id.recyclerView_dayCurrency);
+        dayCurrencyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
             @Override
@@ -98,8 +107,9 @@ public class ForPeriodFragment extends Fragment {
                 .enqueue(new Callback<List<CurrencyMenuItem>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<CurrencyMenuItem>> call, @NonNull Response<List<CurrencyMenuItem>> response) {
-                        if (response.body() != null) {
-                            populateSpinner(response.body());
+                        currencyDesignations = response.body();
+                        if (currencyDesignations != null) {
+                            populateSpinner(currencyDesignations);
                         }
                         else {
                             onNullRequestBody();
