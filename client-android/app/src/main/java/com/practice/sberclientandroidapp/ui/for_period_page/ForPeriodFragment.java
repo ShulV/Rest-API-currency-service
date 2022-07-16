@@ -1,6 +1,7 @@
 package com.practice.sberclientandroidapp.ui.for_period_page;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,12 @@ public class ForPeriodFragment extends Fragment {
 
         loadCurrencyDesignationsFromServer();
 
+        startPeriodDate = root.findViewById(R.id.editText_for_period_start);
+        endPeriodDate = root.findViewById(R.id.editText_for_period_end);
+        date = Calendar.getInstance();
+
+        initializeDate();
+
         return root;
     }
 
@@ -95,6 +102,15 @@ public class ForPeriodFragment extends Fragment {
                 android.R.layout.simple_spinner_dropdown_item, currencyDesignations);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    }
+
+    private void initializeDate() {
+        startPeriodDate.setText(DateUtils.formatDateTime(getActivity(),
+                date.getTimeInMillis(),
+                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+        endPeriodDate.setText(DateUtils.formatDateTime(getActivity(),
+                date.getTimeInMillis(),
+                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
     }
 
     @Override
