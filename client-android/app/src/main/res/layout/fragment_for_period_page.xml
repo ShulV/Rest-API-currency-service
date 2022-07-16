@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,11 +8,12 @@
     tools:context=".ui.for_period_page.ForPeriodFragment">
 
     <TextView
-        android:id="@+id/text_for_period_page"
+        android:id="@+id/textView_for_period_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:textAlignment="viewStart"
         android:textColor="#D7000000"
         android:textSize="18sp"
@@ -20,9 +22,78 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/text_for_period_page"
-        app:layout_constraintLeft_toLeftOf="@id/text_for_period_page" />
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_for_period_page" />
+
+    <TableLayout
+        android:id="@+id/tableLayout_period"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
+        app:layout_constraintLeft_toLeftOf="@id/spinner">
+
+        <TableRow
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/textView_for_period_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_period_start"
+                android:labelFor="@id/editText_for_period_start"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView_for_period_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_period_end"
+                android:labelFor="@id/editText_for_period_end"/>
+
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/editText_for_period_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Дата начала периода"
+                android:inputType="date" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/editText_for_period_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Дата окончания периода"
+                android:inputType="date" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/button_get_currencies_for_period"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tableLayout_period"
+        android:text="@string/buttonText_get_currencies_for_period">
+    </Button>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

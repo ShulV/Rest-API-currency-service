@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.practice.sberclientandroidapp.model.CurrencyMenuItem;
 import com.practice.sberclientandroidapp.retrofit.RetrofitService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,6 +34,10 @@ public class ForPeriodFragment extends Fragment {
 
     private ForPeriodPageViewModel forPeriodPageViewModel;
     private FragmentForPeriodPageBinding binding;
+    RetrofitService retrofitService = new RetrofitService();
+    private EditText startPeriodDate;
+    private EditText endPeriodDate;
+    private Calendar date;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +47,7 @@ public class ForPeriodFragment extends Fragment {
         binding = FragmentForPeriodPageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textForPeriodPage;
+        final TextView textView = binding.textViewForPeriodPage;
         forPeriodPageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -55,7 +61,6 @@ public class ForPeriodFragment extends Fragment {
     }
 
     private void loadCurrencyDesignationsFromServer() {
-        RetrofitService retrofitService = new RetrofitService();
         CurrencyAPI currencyAPI = retrofitService.getRetrofit().create(CurrencyAPI.class);
         currencyAPI.getAllCurrencyDesignations()
                 .enqueue(new Callback<List<CurrencyMenuItem>>() {

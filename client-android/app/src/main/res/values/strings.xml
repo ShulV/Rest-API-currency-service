@@ -4,4 +4,7 @@
     <string name="title_for_period_page">За период</string>
     <string name="title_other_page">Другое</string>
     <string name="server_url">http://192.168.1.4:8080</string>
+    <string name="text_period_start">Дата начала периода:</string>
+    <string name="text_period_end">Дата окончания периода:</string>
+    <string name="buttonText_get_currencies_for_period">Получить курс валюты за период</string>
 </resources>
