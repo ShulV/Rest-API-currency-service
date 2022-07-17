@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.practice.sberclientandroidapp.R;
+import com.practice.sberclientandroidapp.apapter.DayCurrencyAdapter;
 import com.practice.sberclientandroidapp.api.CurrencyAPI;
 import com.practice.sberclientandroidapp.api.DayCurrencyAPI;
 import com.practice.sberclientandroidapp.databinding.FragmentForPeriodPageBinding;
@@ -36,6 +37,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,6 +79,7 @@ public class ForPeriodFragment extends Fragment {
 
         startPeriodDate = root.findViewById(R.id.editText_for_period_start);
         endPeriodDate = root.findViewById(R.id.editText_for_period_end);
+        getCurrenciesForPeriodButton = root.findViewById(R.id.button_get_currencies_for_period);
         date = Calendar.getInstance();
 
         initializeDate();
@@ -156,16 +160,25 @@ public class ForPeriodFragment extends Fragment {
     }
 
     private void loadCurrenciesForPeriod() {
-        DateFormat outDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date startDate = Date.valueOf(startPeriodDate.getText().toString());
-        Date endDate = Date.valueOf(endPeriodDate.getText().toString());
+        DateFormat inDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        Date startDate = new Date(Calendar.getInstance().getTimeInMillis()),
+                endDate = new Date(Calendar.getInstance().getTimeInMillis());
+        try {
+            startDate = new Date(Objects.requireNonNull(
+                    inDateFormat.parse(startPeriodDate.getText().toString())).getTime());
+            endDate = new Date(Objects.requireNonNull(
+                    inDateFormat.parse(endPeriodDate.getText().toString())).getTime());
+        }
+        catch (java.text.ParseException e) {
+            Toast.makeText(getActivity(), "Неверный формат даты", Toast.LENGTH_LONG).show();
+        }
         String charCode = getCurrencyCharCodeByDesignation(spinner.getSelectedItem().toString());
         DayCurrencyAPI dayCurrencyAPI = retrofitService.getRetrofit().create(DayCurrencyAPI.class);
         dayCurrencyAPI.getCurrenciesForPeriod(startDate, endDate, charCode)
                 .enqueue(new Callback<List<DayCurrency>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<DayCurrency>> call, @NonNull Response<List<DayCurrency>> response) {
-                        populateRecyclerView(response.body());
+                        populateRecyclerView(response.body(), charCode);
                     }
 
                     @Override
@@ -175,8 +188,10 @@ public class ForPeriodFragment extends Fragment {
                 });
     }
 
-    private void populateRecyclerView(List<DayCurrency> responseBody) {
-
+    private void populateRecyclerView(List<DayCurrency> responseBody, String currencyCharCode) {
+        DayCurrencyAdapter dayCurrencyAdapter =
+                new DayCurrencyAdapter(responseBody, currencyCharCode);
+        dayCurrencyRecyclerView.setAdapter(dayCurrencyAdapter);
     }
 
     private void populateSpinner(List<CurrencyMenuItem> responseBody) {

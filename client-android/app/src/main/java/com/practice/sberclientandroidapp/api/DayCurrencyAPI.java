@@ -10,7 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface DayCurrencyAPI {
-    @GET("/api/currency/period-currencies")
+    @GET("/api/currency/period-currencies?")
     Call<List<DayCurrency>> getCurrenciesForPeriod(@Query("fromDate") Date fromDate,
                                                    @Query("toDate") Date toDate,
                                                    @Query("charcode") String charCode);
