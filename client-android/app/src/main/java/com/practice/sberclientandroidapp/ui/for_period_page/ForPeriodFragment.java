@@ -27,6 +27,7 @@ import com.practice.sberclientandroidapp.api.CurrencyAPI;
 import com.practice.sberclientandroidapp.api.DayCurrencyAPI;
 import com.practice.sberclientandroidapp.databinding.FragmentForPeriodPageBinding;
 import com.practice.sberclientandroidapp.model.CurrencyMenuItem;
+import com.practice.sberclientandroidapp.model.DayCurrency;
 import com.practice.sberclientandroidapp.retrofit.RetrofitService;
 
 import java.sql.Date;
@@ -45,7 +46,8 @@ public class ForPeriodFragment extends Fragment {
     private ForPeriodPageViewModel forPeriodPageViewModel;
     private FragmentForPeriodPageBinding binding;
     RetrofitService retrofitService = new RetrofitService();
-    private List<CurrencyMenuItem> currencyDesignations;
+    private List<CurrencyMenuItem> currencyMenuItems;
+    private Spinner spinner;
     private EditText startPeriodDate;
     private EditText endPeriodDate;
     private Calendar date;
@@ -67,6 +69,8 @@ public class ForPeriodFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        spinner = root.findViewById(R.id.spinner);
 
         loadCurrencyDesignationsFromServer();
 
@@ -122,9 +126,9 @@ public class ForPeriodFragment extends Fragment {
                 .enqueue(new Callback<List<CurrencyMenuItem>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<CurrencyMenuItem>> call, @NonNull Response<List<CurrencyMenuItem>> response) {
-                        currencyDesignations = response.body();
-                        if (currencyDesignations != null) {
-                            populateSpinner(currencyDesignations);
+                        currencyMenuItems = response.body();
+                        if (currencyMenuItems != null) {
+                            populateSpinner(currencyMenuItems);
                         }
                         else {
                             onNullRequestBody();
@@ -142,15 +146,40 @@ public class ForPeriodFragment extends Fragment {
                 });
     }
 
+    private String getCurrencyCharCodeByDesignation(String currencyDesignation) {
+        for (CurrencyMenuItem currency: currencyMenuItems) {
+            if (currency.getName().equals(currencyDesignation)) {
+                return currency.getCharCode();
+            }
+        }
+        return "";
+    }
+
     private void loadCurrenciesForPeriod() {
         DateFormat outDateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date startDate = Date.valueOf(startPeriodDate.getText().toString());
+        Date endDate = Date.valueOf(endPeriodDate.getText().toString());
+        String charCode = getCurrencyCharCodeByDesignation(spinner.getSelectedItem().toString());
         DayCurrencyAPI dayCurrencyAPI = retrofitService.getRetrofit().create(DayCurrencyAPI.class);
-        //dayCurrencyAPI.getCurrenciesForPeriod();
+        dayCurrencyAPI.getCurrenciesForPeriod(startDate, endDate, charCode)
+                .enqueue(new Callback<List<DayCurrency>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<DayCurrency>> call, @NonNull Response<List<DayCurrency>> response) {
+                        populateRecyclerView(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<DayCurrency>> call, @NonNull Throwable t) {
+                        Toast.makeText(getActivity(), "Ошибка загрузки данных с сервера", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void populateRecyclerView(List<DayCurrency> responseBody) {
+
     }
 
     private void populateSpinner(List<CurrencyMenuItem> responseBody) {
-        Spinner spinner = requireView().findViewById(R.id.spinner);
         List<String> currencyDesignations = new ArrayList<>();
         for (CurrencyMenuItem currencyMenuItem: responseBody) {
             currencyDesignations.add(currencyMenuItem.getName());
