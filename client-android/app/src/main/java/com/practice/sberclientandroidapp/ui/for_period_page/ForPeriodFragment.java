@@ -177,7 +177,8 @@ public class ForPeriodFragment extends Fragment {
         dayCurrencyAPI.getCurrenciesForPeriod(startDate, endDate, charCode)
                 .enqueue(new Callback<List<DayCurrency>>() {
                     @Override
-                    public void onResponse(@NonNull Call<List<DayCurrency>> call, @NonNull Response<List<DayCurrency>> response) {
+                    public void onResponse(@NonNull Call<List<DayCurrency>> call,
+                                           @NonNull Response<List<DayCurrency>> response) {
                         populateRecyclerView(response.body(), charCode);
                     }
 
