@@ -7,6 +7,8 @@ import com.practice.service.parser.XMLParser;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -18,7 +20,21 @@ public class CurrencyService {
         this.xmlParser = xmlParser;
     }
     public List<CurrencyMenuItem> getAllCurrencyDesignations() {
-        return currencyDAO.getAllCurrencyDesignations();
+        List<CurrencyMenuItem> currencyListFromDB = new ArrayList<>();
+        List<Currency> currencyListFromParser;
+        try {
+            currencyListFromDB = currencyDAO.getAllCurrencyDesignations();
+            currencyListFromParser = xmlParser.xmlInitializeCurrency();
+
+            if (currencyListFromDB.size() != currencyListFromParser.size()) {
+                currencyDAO.batchCurrencyUpdate(currencyListFromParser);
+                currencyListFromDB = currencyDAO.getAllCurrencyDesignations();
+            }
+        }
+        catch (IOException e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
+        return currencyListFromDB;
     }
 
     public void initDB() throws IOException {

@@ -1,5 +1,6 @@
 package com.practice.service;
 
+import com.practice.service.services.CurrencyService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

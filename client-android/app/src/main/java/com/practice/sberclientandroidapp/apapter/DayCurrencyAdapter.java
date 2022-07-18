@@ -43,7 +43,7 @@ public class DayCurrencyAdapter extends RecyclerView.Adapter<DayCurrencyHolder> 
         String textCharCodeAndNominal;
         DayCurrency dayCurrency = dayCurrencyList.get(position);
 
-        if (dayCurrency.getNominal() == 1) {
+        if (dayCurrency.getNominal() != 1) {
             textCharCodeAndNominal = dayCurrency.getNominal() + "\n" + currencyCharCode;
         }
         else {
