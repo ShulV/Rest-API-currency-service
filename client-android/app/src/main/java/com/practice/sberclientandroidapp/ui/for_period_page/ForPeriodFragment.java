@@ -139,7 +139,6 @@ public class ForPeriodFragment extends Fragment {
         }
     }
 
-
     private void loadCurrencyDesignationsFromServer() {
         CurrencyAPI currencyAPI = retrofitService.getRetrofit().create(CurrencyAPI.class);
         currencyAPI.getAllCurrencyDesignations()

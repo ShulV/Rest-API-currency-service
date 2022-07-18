@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.practice.sberclientandroidapp.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class DayCurrencyHolder extends RecyclerView.ViewHolder {
 
     TextView charCodeAndNominal, date, value;
