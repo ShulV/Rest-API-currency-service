@@ -58,6 +58,8 @@ public class ForPeriodFragment extends Fragment {
     private Spinner spinner;
     private EditText startPeriodDate;
     private EditText endPeriodDate;
+    private Date startDate;
+    private Date endDate;
     private Calendar date;
     private Button getCurrenciesForPeriodButton;
     private RecyclerView dayCurrencyRecyclerView;
@@ -77,6 +79,9 @@ public class ForPeriodFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        startDate = new Date(Calendar.getInstance().getTimeInMillis());
+        endDate = new Date(Calendar.getInstance().getTimeInMillis());
 
         spinner = root.findViewById(R.id.spinner);
 
@@ -117,16 +122,66 @@ public class ForPeriodFragment extends Fragment {
         getCurrenciesForPeriodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getDatesFromEditText();
                 if (isDataCorrect()) {
                     loadCurrenciesForPeriod();
                 }
                 else {
-
+                    Toast.makeText(getActivity(),
+                            "Неверный ввод периода", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         return root;
+    }
+
+    private void getDatesFromEditText() {
+        DateFormat inDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        try {
+            startDate = new Date(Objects.requireNonNull(
+                    inDateFormat.parse(startPeriodDate.getText().toString())).getTime());
+            endDate = new Date(Objects.requireNonNull(
+                    inDateFormat.parse(endPeriodDate.getText().toString())).getTime());
+        }
+        catch (java.text.ParseException e) {
+            Toast.makeText(getActivity(), "Неверный формат даты", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private boolean isDataCorrect() {
+        return !endDate.before(startDate) && !startDate.after(Calendar.getInstance().getTime())
+                && !endDate.after(Calendar.getInstance().getTime());
+    }
+
+    private void loadCurrenciesForPeriod() {
+        DateFormat inDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        Date startDate = new Date(Calendar.getInstance().getTimeInMillis()),
+                endDate = new Date(Calendar.getInstance().getTimeInMillis());
+        try {
+            startDate = new Date(Objects.requireNonNull(
+                    inDateFormat.parse(startPeriodDate.getText().toString())).getTime());
+            endDate = new Date(Objects.requireNonNull(
+                    inDateFormat.parse(endPeriodDate.getText().toString())).getTime());
+        }
+        catch (java.text.ParseException e) {
+            Toast.makeText(getActivity(), "Неверный формат даты", Toast.LENGTH_LONG).show();
+        }
+        String charCode = getCurrencyCharCodeByDesignation(spinner.getSelectedItem().toString());
+        DayCurrencyAPI dayCurrencyAPI = retrofitService.getRetrofit().create(DayCurrencyAPI.class);
+        dayCurrencyAPI.getCurrenciesForPeriod(startDate, endDate, charCode)
+                .enqueue(new Callback<List<DayCurrency>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<DayCurrency>> call,
+                                           @NonNull Response<List<DayCurrency>> response) {
+                        populateRecyclerView(response.body(), charCode);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<DayCurrency>> call, @NonNull Throwable t) {
+                        Toast.makeText(getActivity(), "Ошибка загрузки данных с сервера", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void loadCurrencyDesignationsFromServer() {
@@ -164,36 +219,6 @@ public class ForPeriodFragment extends Fragment {
         return "";
     }
 
-    private void loadCurrenciesForPeriod() {
-        DateFormat inDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        Date startDate = new Date(Calendar.getInstance().getTimeInMillis()),
-                endDate = new Date(Calendar.getInstance().getTimeInMillis());
-        try {
-            startDate = new Date(Objects.requireNonNull(
-                    inDateFormat.parse(startPeriodDate.getText().toString())).getTime());
-            endDate = new Date(Objects.requireNonNull(
-                    inDateFormat.parse(endPeriodDate.getText().toString())).getTime());
-        }
-        catch (java.text.ParseException e) {
-            Toast.makeText(getActivity(), "Неверный формат даты", Toast.LENGTH_LONG).show();
-        }
-        String charCode = getCurrencyCharCodeByDesignation(spinner.getSelectedItem().toString());
-        DayCurrencyAPI dayCurrencyAPI = retrofitService.getRetrofit().create(DayCurrencyAPI.class);
-        dayCurrencyAPI.getCurrenciesForPeriod(startDate, endDate, charCode)
-                .enqueue(new Callback<List<DayCurrency>>() {
-                    @Override
-                    public void onResponse(@NonNull Call<List<DayCurrency>> call,
-                                           @NonNull Response<List<DayCurrency>> response) {
-                        populateRecyclerView(response.body(), charCode);
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<List<DayCurrency>> call, @NonNull Throwable t) {
-                        Toast.makeText(getActivity(), "Ошибка загрузки данных с сервера", Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
     private void populateRecyclerView(List<DayCurrency> responseBody, String currencyCharCode) {
         DayCurrencyAdapter dayCurrencyAdapter =
                 new DayCurrencyAdapter(responseBody, currencyCharCode);
@@ -218,10 +243,6 @@ public class ForPeriodFragment extends Fragment {
         endPeriodDate.setText(DateUtils.formatDateTime(getActivity(),
                 date.getTimeInMillis(),
                 DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
-    }
-
-    private boolean isDataCorrect() {
-        return true;
     }
 
     @Override
