@@ -106,7 +106,6 @@ public class ForPeriodFragment extends Fragment {
                         String textDate = textDay + "." + textMonth + "." + year;
                         EditText currentEditText = (EditText) v;
                         currentEditText.setText(textDate);
-                        hideSoftKeyboard(currentEditText);
                     }
                 }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -128,15 +127,6 @@ public class ForPeriodFragment extends Fragment {
         });
 
         return root;
-    }
-    // Метод для скрытия клавиатуры после ввода даты в editText.
-    private void hideSoftKeyboard(EditText editText){
-        Activity currentActivity = getActivity();
-        if(currentActivity != null && currentActivity.getCurrentFocus()!=null
-                && currentActivity.getCurrentFocus() instanceof EditText){
-            InputMethodManager imm = (InputMethodManager)currentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }
     }
 
     private void loadCurrencyDesignationsFromServer() {

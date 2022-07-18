@@ -64,10 +64,12 @@
         </TableRow>
 
         <TableRow>
+
             <EditText
                 android:id="@+id/editText_for_period_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
                 android:autofillHints="Дата начала периода"
                 android:inputType="date" />
 
@@ -80,6 +82,7 @@
                 android:id="@+id/editText_for_period_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
                 android:autofillHints="Дата окончания периода"
                 android:inputType="date" />
         </TableRow>
