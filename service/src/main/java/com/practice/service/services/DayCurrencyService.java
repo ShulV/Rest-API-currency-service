@@ -39,8 +39,12 @@ public class DayCurrencyService {
             Date maxDate = missingDateList.get(missingDateList.size() - 1);
 
             dayCurrencyList = xmlParser.xmlConnectPeriod(minDate, maxDate, curId);
-
-            fillInEmptyLines(minDate, maxDate, dayCurrencyList, curId);
+            if (dayCurrencyList.isEmpty()) {
+                dayCurrencyList = fillEmptyList(dayCurrencyList, minDate, maxDate, curId);
+            }
+            else {
+                fillInEmptyLines(minDate, maxDate, dayCurrencyList, curId);
+            }
 
             dayCurrencyList.removeIf(dc -> !missingDateList.contains(dc.getDate()));
         }
