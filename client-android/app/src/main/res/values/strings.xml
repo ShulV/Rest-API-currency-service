@@ -13,4 +13,48 @@
     <string name="text_charcode_and_nominal">CharCode and Nominal</string>
     <string name="text_date">Date</string>
     <string name="text_value">Value</string>
+
+    <string-array name="pref_favorite_currencies">
+        <item>Австралийский доллар</item>
+        <item>Фунт стерлингов Соединенного королевства</item>
+        <item>Белорусских рублей</item>
+        <item>Датских крон</item>
+        <item>Доллар США</item>
+        <item>Евро</item>
+        <item>Азербайджанский манат</item>
+        <item>Армянских драмов</item>
+        <item>Белорусский рубль</item>
+        <item>Болгарский лев</item>
+        <item>Бразильский реал</item>
+        <item>Венгерских форинтов</item>
+        <item>Гонконгских долларов</item>
+        <item>Индийских рупий</item>
+        <item>Казахстанских тенге</item>
+        <item>Канадский доллар</item>
+        <item>Киргизских сомов</item>
+        <item>Китайских юаней</item>
+        <item>Молдавских леев</item>
+        <item>Норвежских крон</item>
+        <item>Польский злотый</item>
+        <item>Румынский лей</item>
+        <item>СДР (специальные права заимствования)</item>
+        <item>Сингапурский доллар</item>
+        <item>Таджикских сомони</item>
+        <item>Турецких лир</item>
+        <item>Новый туркменский манат</item>
+        <item>Узбекских сумов</item>
+        <item>Украинских гривен</item>
+        <item>Чешских крон</item>
+        <item>Шведских крон</item>
+        <item>Швейцарский франк</item>
+        <item>Южноафриканских рэндов</item>
+        <item>Вон Республики Корея</item>
+        <item>Японских иен</item>
+    </string-array>
+
+    <string-array name="pref_default_favorite_currencies">
+        <item>Доллар США</item>
+        <item>Евро</item>
+    </string-array>
+
 </resources>

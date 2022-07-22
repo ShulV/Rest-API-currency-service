@@ -51,7 +51,7 @@ public class ForPeriodFragment extends Fragment {
 
     private ForPeriodPageViewModel forPeriodPageViewModel;
     private FragmentForPeriodPageBinding binding;
-    RetrofitService retrofitService;
+    private RetrofitService retrofitService;
     private List<CurrencyMenuItem> currencyMenuItems;
     private Spinner spinner;
     private EditText startPeriodDate;
@@ -194,7 +194,8 @@ public class ForPeriodFragment extends Fragment {
         currencyMenuItemAPI.getAllCurrencyDesignations()
                 .enqueue(new Callback<List<CurrencyMenuItem>>() {
                     @Override
-                    public void onResponse(@NonNull Call<List<CurrencyMenuItem>> call, @NonNull Response<List<CurrencyMenuItem>> response) {
+                    public void onResponse(@NonNull Call<List<CurrencyMenuItem>> call,
+                                           @NonNull Response<List<CurrencyMenuItem>> response) {
                         currencyMenuItems = response.body();
                         if (currencyMenuItems != null) {
                             populateSpinner(currencyMenuItems);
@@ -230,9 +231,10 @@ public class ForPeriodFragment extends Fragment {
         dayCurrencyRecyclerView.setAdapter(dayCurrencyAdapter);
     }
 
-    private void populateSpinner(List<CurrencyMenuItem> responseBody) {
+    private void populateSpinner(List<CurrencyMenuItem> currencyMenuItems) {
+
         List<String> currencyDesignations = new ArrayList<>();
-        for (CurrencyMenuItem currencyMenuItem: responseBody) {
+        for (CurrencyMenuItem currencyMenuItem: currencyMenuItems) {
             currencyDesignations.add(currencyMenuItem.getName());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),

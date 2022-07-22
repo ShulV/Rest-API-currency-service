@@ -10,5 +10,12 @@
             android:key="URL"
             android:inputType="textUri"
             android:dialogTitle="Введите URL сервера" />
+        <MultiSelectListPreference
+            android:key="favorite_currencies"
+            android:title="Отслеживаемые валюты"
+            android:summary="Нажмите, чтобы выбрать список отслеживаемых валют"
+            android:entries="@array/pref_favorite_currencies"
+            android:entryValues="@array/pref_favorite_currencies"
+            android:defaultValue="@array/pref_default_favorite_currencies"/>
     </PreferenceCategory>
 </PreferenceScreen>
