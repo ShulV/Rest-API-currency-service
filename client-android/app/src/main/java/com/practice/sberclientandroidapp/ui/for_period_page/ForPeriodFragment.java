@@ -2,7 +2,9 @@ package com.practice.sberclientandroidapp.ui.for_period_page;
 
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +51,7 @@ public class ForPeriodFragment extends Fragment {
 
     private ForPeriodPageViewModel forPeriodPageViewModel;
     private FragmentForPeriodPageBinding binding;
-    RetrofitService retrofitService = new RetrofitService();
+    RetrofitService retrofitService;
     private List<CurrencyMenuItem> currencyMenuItems;
     private Spinner spinner;
     private EditText startPeriodDate;
@@ -59,6 +61,7 @@ public class ForPeriodFragment extends Fragment {
     private Calendar date;
     private Button getCurrenciesForPeriodButton;
     private RecyclerView dayCurrencyRecyclerView;
+    private String serverURL;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +78,12 @@ public class ForPeriodFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(root.getContext());
+        serverURL = preferences.getString("URL", "");
+
+        retrofitService = new RetrofitService(serverURL);
 
         startDate = new Date(Calendar.getInstance().getTimeInMillis());
         endDate = new Date(Calendar.getInstance().getTimeInMillis());

@@ -25,8 +25,7 @@ public class SettingsPageFragment extends Fragment {
         binding = FragmentSettingsPageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        if (root.findViewById(R.id.frameLayout_settings) != null &&
-                savedInstanceState == null) {
+        if (root.findViewById(R.id.frameLayout_settings) != null) {
             // below line is to inflate our fragment.
             requireActivity().getFragmentManager().beginTransaction()
                     .add(R.id.frameLayout_settings, new SettingsFragment()).commit();
