@@ -1,5 +1,8 @@
 package com.practice.sberclientandroidapp.ui.main_page;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.practice.sberclientandroidapp.databinding.FragmentMainPageBinding;
+
+import okhttp3.internal.cache.DiskLruCache;
 
 public class MainPageFragment extends Fragment {
 
@@ -34,6 +39,7 @@ public class MainPageFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         return root;
     }
 

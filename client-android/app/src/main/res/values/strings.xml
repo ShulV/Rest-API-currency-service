@@ -1,10 +1,16 @@
 <resources>
-    <string name="app_name">SberClientAndroidApp</string>
+    <string name="app_name">Курсы валют</string>
     <string name="title_main_page">Главная</string>
     <string name="title_for_period_page">За период</string>
-    <string name="title_other_page">Другое</string>
-    <string name="server_url">http://192.168.1.4:8080</string>
+    <string name="title_settings_page">Настройки</string>
+    <string name="default_server_url">http://192.168.1.4:8080</string>
     <string name="text_period_start">Дата начала периода:</string>
     <string name="text_period_end">Дата окончания периода:</string>
     <string name="buttonText_get_currencies_for_period">Получить курс валюты за период</string>
+    <string name="pref_server_ur_title">URL сервера</string>
+    <string name="pref_server_url_summary">Нажмите, чтобы задать свой URL сервера</string>
+    <string name="text_settings">Настройки</string>
+    <string name="text_charcode_and_nominal">CharCode and Nominal</string>
+    <string name="text_date">Date</string>
+    <string name="text_value">Value</string>
 </resources>
