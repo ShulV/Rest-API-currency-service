@@ -2,6 +2,7 @@ package com.practice.service.parser;
 
 import com.practice.service.model.Currency;
 import com.practice.service.model.DayCurrency;
+import com.practice.service.model.FullCurrencyInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,15 +20,19 @@ import static java.lang.Integer.parseInt;
 
 @Component
 public class XMLParser {
+
     DateFormat fromFormat = new SimpleDateFormat("dd.MM.yyyy");
     DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public List<DayCurrency> xmlDailyValutes() {
-        List<DayCurrency> dayCurrencyList = new ArrayList<>();
+    public List<FullCurrencyInfo> xmlDailyValutes() {
+        List<FullCurrencyInfo> fullCurrencyList = new ArrayList<>();
 
         List<String> IDList = new ArrayList<>();
         List<Double> valueList = new ArrayList<>();
         List<Integer> nominalList = new ArrayList<>();
+        List<String> charCodeList = new ArrayList<>();
+        List<String> nameList = new ArrayList<>();
+        List<Integer> numCodeList = new ArrayList<>();
 
         Date todayDate;
 
@@ -64,14 +69,29 @@ public class XMLParser {
             nominalList.add(parseInt(e.text()));
         }
 
+        for (Element e : doc.select("CharCode")) {
+            charCodeList.add(e.text());
+        }
+
+        for (Element e : doc.select("NumCode")) {
+            numCodeList.add(parseInt(e.text()));
+        }
+
+        for (Element e : doc.select("Name")) {
+            nameList.add(e.text());
+        }
+
         for(int i = 0; i < IDList.size(); i++){
-            dayCurrencyList.add(new DayCurrency(
+            fullCurrencyList.add(new FullCurrencyInfo(
+                    IDList.get(i),
                     valueList.get(i),
                     todayDate,
                     nominalList.get(i),
-                    IDList.get(i)));
+                    numCodeList.get(i),
+                    charCodeList.get(i),
+                    nameList.get(i)));
         }
-        return dayCurrencyList;
+        return fullCurrencyList;
     }
 
     public List<DayCurrency> xmlConnectPeriod(Date startDate,
@@ -116,13 +136,12 @@ public class XMLParser {
     }
 
     public List<Currency> xmlInitializeCurrency() throws IOException {
-
         List<Currency> currencyList = new ArrayList<>();
 
         List<String> IDList = new ArrayList<>();
-        List<Integer> NumCodeList = new ArrayList<>();
-        List<String> CharCodeList = new ArrayList<>();
-        List<String> NameList = new ArrayList<>();
+        List<Integer> numCodeList = new ArrayList<>();
+        List<String> charCodeList = new ArrayList<>();
+        List<String> nameList = new ArrayList<>();
 
         String xml = "https://www.cbr.ru/scripts/XML_daily.asp";
         Document doc = Jsoup
@@ -136,23 +155,23 @@ public class XMLParser {
         }
 
         for (Element e : doc.select("NumCode")) {
-            NumCodeList.add(parseInt(e.text()));
+            numCodeList.add(parseInt(e.text()));
         }
 
         for (Element e : doc.select("CharCode")) {
-            CharCodeList.add(e.text());
+            charCodeList.add(e.text());
         }
 
         for (Element e : doc.select("Name")) {
-            NameList.add(e.text());
+            nameList.add(e.text());
         }
 
-        for(int i = 0; i < NameList.size(); i++){
+        for(int i = 0; i < nameList.size(); i++){
             currencyList.add(new Currency(
                             IDList.get(i),
-                            NumCodeList.get(i),
-                            CharCodeList.get(i),
-                            NameList.get(i)));
+                            numCodeList.get(i),
+                            charCodeList.get(i),
+                            nameList.get(i)));
         }
         return currencyList;
     }
