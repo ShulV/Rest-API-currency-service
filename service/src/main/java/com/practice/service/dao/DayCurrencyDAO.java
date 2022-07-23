@@ -33,14 +33,14 @@ public class DayCurrencyDAO {
 
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) {
 
-        return jdbcTemplate.query("SELECT \"PK_daycur\", \"value\", \"date\", \"nominal\", dc.\"PK_id\"\n" +
+        return jdbcTemplate.query("SELECT \"PK_daycur\", \"value\", \"date\", \"nominal\", dc.\"PK_id\"" +
                         "FROM \"DayCurrency\" as dc\n" +
-                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"\n" +
-                        "where \"charcode\" = ? and\n" +
-                        "\"date\" between ? and ?\n" +
+                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"" +
+                        "where \"charcode\" = ? and" +
+                        "\"date\" between ? and ?" +
                         "ORDER BY \"date\";",
-                new Object[]{charcode, fromDate, toDate},
-                new BeanPropertyRowMapper<>(DayCurrency.class)).stream().toList();
+                new BeanPropertyRowMapper<>(DayCurrency.class),
+                new Object[]{charcode, fromDate, toDate}).stream().toList();
 
     }
 
@@ -76,4 +76,13 @@ public class DayCurrencyDAO {
                 });
     }
 
+    public List<DayCurrency> getAllTodayCurrencies(java.util.Date date) {
+        return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.charcode, c.name" +
+                        "FROM \"DayCurrency\" as dc\n" +
+                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"" +
+                        "where \"date\" = ?" +
+                        "ORDER BY c.name;",
+                new BeanPropertyRowMapper<>(DayCurrency.class),
+                new Object[]{date}).stream().toList();
+    }
 }

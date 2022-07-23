@@ -29,6 +29,11 @@ public class DayCurrencyController {
         return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, charcode);
     }
 
+    @GetMapping(value = "/all-today-currency", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DayCurrency> getAllTodayCurrencies() throws IOException, ParseException {
+        return dayCurrencyService.getAllTodayCurrencies();
+    }
+
 //    @GetMapping(value = "/testDB", produces = MediaType.APPLICATION_JSON_VALUE)
 //    public String testDB() {
 //        dayCurrencyService.insert(new DayCurrency(444, 77.77, new Date(1999, 12, 12), 100, "pk33"), "Евро");

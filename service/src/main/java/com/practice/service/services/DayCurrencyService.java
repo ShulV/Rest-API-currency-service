@@ -168,6 +168,12 @@ public class DayCurrencyService {
         return new java.sql.Date(cal.getTimeInMillis());
     }
 
+    public List<DayCurrency> getAllTodayCurrencies() {
+        java.util.Date todayDate = new java.util.Date();
+        //TODO парсинг при надобности, проверка на существование (нужно дописать парсинг)
+        return dayCurrencyDAO.getAllTodayCurrencies(todayDate);
+    }
+
 ////TODO для дебага
 //    private void printList(List<DayCurrency> dayCurrencyList) {
 //        for (DayCurrency dc: dayCurrencyList
