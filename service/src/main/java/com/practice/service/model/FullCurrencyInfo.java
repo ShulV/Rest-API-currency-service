@@ -3,6 +3,8 @@ package com.practice.service.model;
 import java.sql.Date;
 
 public class FullCurrencyInfo {
+    private String ID;
+
     private double value;
     private Date date;
     private int nominal;
@@ -16,6 +18,14 @@ public class FullCurrencyInfo {
 
     public void setNumCode(int numCode) {
         this.numCode = numCode;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public double getValue() {
@@ -58,19 +68,12 @@ public class FullCurrencyInfo {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "FullCurrencyInfo{" +
-                "value=" + value +
-                ", date=" + date +
-                ", nominal=" + nominal +
-                ", numCode=" + numCode +
-                ", charcode='" + charcode + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public FullCurrencyInfo() {
+
     }
 
-    public FullCurrencyInfo(double value, Date date, int nominal, int numCode, String charcode, String name) {
+    public FullCurrencyInfo(String ID, double value, Date date, int nominal, int numCode, String charcode, String name) {
+        this.ID = ID;
         this.value = value;
         this.date = date;
         this.nominal = nominal;
@@ -79,8 +82,17 @@ public class FullCurrencyInfo {
         this.name = name;
     }
 
-    public FullCurrencyInfo() {
-
+    @Override
+    public String toString() {
+        return "FullCurrencyInfo{" +
+                "ID='" + ID + '\'' +
+                ", value=" + value +
+                ", date=" + date +
+                ", nominal=" + nominal +
+                ", numCode=" + numCode +
+                ", charcode='" + charcode + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
 }

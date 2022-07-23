@@ -83,6 +83,7 @@ public class XMLParser {
 
         for(int i = 0; i < IDList.size(); i++){
             fullCurrencyList.add(new FullCurrencyInfo(
+                    IDList.get(i),
                     valueList.get(i),
                     todayDate,
                     nominalList.get(i),
