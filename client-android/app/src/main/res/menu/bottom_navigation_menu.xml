@@ -12,8 +12,8 @@
         android:title="@string/title_for_period_page" />
 
     <item
-        android:id="@+id/navigation_other_page"
-        android:icon="@drawable/ic_other_page"
-        android:title="@string/title_other_page" />
+        android:id="@+id/navigation_settings_page"
+        android:icon="@drawable/ic_settings_page"
+        android:title="@string/title_settings_page" />
 
 </menu>

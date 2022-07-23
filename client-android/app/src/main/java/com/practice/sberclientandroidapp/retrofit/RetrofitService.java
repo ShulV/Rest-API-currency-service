@@ -21,8 +21,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 // Object of this class is used to connect to server.
 public class RetrofitService {
     private Retrofit retrofit;
+    private String serverURL;
     // Constructor with initializing retrofit field.
-    public RetrofitService() {
+    public RetrofitService(String serverURL) {
+        this.serverURL = serverURL;
         initializeRetrofit();
     }
     // Method that initializes Retrofit object.
@@ -38,7 +40,7 @@ public class RetrofitService {
         });
         retrofit = new Retrofit.Builder()
                 // Server Url address that is defined in string resources.
-                .baseUrl("http://192.168.1.4:8080")
+                .baseUrl(serverURL)
                 // Adding Converter Factory to process json.
                 .addConverterFactory(GsonConverterFactory.create(builder.create()))
                 .build();

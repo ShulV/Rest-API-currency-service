@@ -33,11 +33,11 @@ public class DayCurrencyDAO {
 
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) {
 
-        return jdbcTemplate.query("SELECT \"PK_daycur\", \"value\", \"date\", \"nominal\", dc.\"PK_id\"" +
-                        "FROM \"DayCurrency\" as dc\n" +
-                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"" +
-                        "where \"charcode\" = ? and" +
-                        "\"date\" between ? and ?" +
+        return jdbcTemplate.query("SELECT \"PK_daycur\", \"value\", \"date\", \"nominal\", dc.\"PK_id\" " +
+                        "FROM \"DayCurrency\" as dc " +
+                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\" " +
+                        "where \"charcode\" = ? and " +
+                        "\"date\" between ? and ? " +
                         "ORDER BY \"date\";",
                 new BeanPropertyRowMapper<>(DayCurrency.class),
                 new Object[]{charcode, fromDate, toDate}).stream().toList();
@@ -50,16 +50,16 @@ public class DayCurrencyDAO {
         int nominal = dayCurrency.getNominal();
         String pkId = dayCurrency.getPK_id();
 
-        jdbcTemplate.update("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\")" +
-                "VALUES (?, ?, ?, (SELECT \"PK_id\" FROM public.\"Currency\"" +
+        jdbcTemplate.update("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\") " +
+                "VALUES (?, ?, ?, (SELECT \"PK_id\" FROM public.\"Currency\" " +
                         "where \"name\"=?));",
                 value, date, nominal, currencyName);
     }
 
     public void batchDayCurrencyUpdate(List<DayCurrency> dayCurrencyList, String charcode) {
-        jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\")" +
-                        "VALUES (?, ?, ?," +
-                        "(SELECT \"PK_id\"" +
+        jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\") " +
+                        "VALUES (?, ?, ?, " +
+                        "(SELECT \"PK_id\" " +
                         "FROM \"Currency\" where \"charcode\"=?));",
                 new BatchPreparedStatementSetter() {
                     @Override
@@ -77,11 +77,12 @@ public class DayCurrencyDAO {
     }
 
     public List<DayCurrency> getAllTodayCurrencies(java.util.Date date) {
-        return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.charcode, c.name" +
-                        "FROM \"DayCurrency\" as dc\n" +
-                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\"" +
-                        "where \"date\" = ?" +
-                        "ORDER BY c.name;",
+        System.out.println("LOL!");
+        return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.charcode, c.name " +
+                        "FROM \"DayCurrency\" as dc " +
+                        "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\" " +
+                        "where \"date\" = ? " +
+                        "ORDER BY c.name",
                 new BeanPropertyRowMapper<>(DayCurrency.class),
                 new Object[]{date}).stream().toList();
     }

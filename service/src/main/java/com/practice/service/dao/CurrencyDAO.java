@@ -32,7 +32,7 @@ public class CurrencyDAO {
     }
 
     public void batchCurrencyUpdate(List<Currency> currencyList) {
-        jdbcTemplate.batchUpdate("INSERT INTO \"Currency\" (\"PK_id\", \"numcode\", \"charcode\", \"name\")" +
+        jdbcTemplate.batchUpdate("INSERT INTO \"Currency\" (\"PK_id\", \"numcode\", \"charcode\", \"name\") " +
                         "VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING",
                 new BatchPreparedStatementSetter() {
                     @Override
