@@ -1,16 +1,14 @@
 package com.practice.sberclientandroidapp.ui.for_period_page;
 
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.inputmethodservice.InputMethodService;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.practice.sberclientandroidapp.R;
 import com.practice.sberclientandroidapp.apapter.DayCurrencyAdapter;
-import com.practice.sberclientandroidapp.api.CurrencyAPI;
+import com.practice.sberclientandroidapp.api.CurrencyMenuItemAPI;
 import com.practice.sberclientandroidapp.api.DayCurrencyAPI;
 import com.practice.sberclientandroidapp.databinding.FragmentForPeriodPageBinding;
 import com.practice.sberclientandroidapp.model.CurrencyMenuItem;
@@ -53,7 +51,7 @@ public class ForPeriodFragment extends Fragment {
 
     private ForPeriodPageViewModel forPeriodPageViewModel;
     private FragmentForPeriodPageBinding binding;
-    RetrofitService retrofitService = new RetrofitService();
+    private RetrofitService retrofitService;
     private List<CurrencyMenuItem> currencyMenuItems;
     private Spinner spinner;
     private EditText startPeriodDate;
@@ -63,6 +61,7 @@ public class ForPeriodFragment extends Fragment {
     private Calendar date;
     private Button getCurrenciesForPeriodButton;
     private RecyclerView dayCurrencyRecyclerView;
+    private String serverURL;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +78,12 @@ public class ForPeriodFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(root.getContext());
+        serverURL = preferences.getString("URL", "");
+
+        retrofitService = new RetrofitService(serverURL);
 
         startDate = new Date(Calendar.getInstance().getTimeInMillis());
         endDate = new Date(Calendar.getInstance().getTimeInMillis());
@@ -185,11 +190,12 @@ public class ForPeriodFragment extends Fragment {
     }
 
     private void loadCurrencyDesignationsFromServer() {
-        CurrencyAPI currencyAPI = retrofitService.getRetrofit().create(CurrencyAPI.class);
-        currencyAPI.getAllCurrencyDesignations()
+        CurrencyMenuItemAPI currencyMenuItemAPI = retrofitService.getRetrofit().create(CurrencyMenuItemAPI.class);
+        currencyMenuItemAPI.getAllCurrencyDesignations()
                 .enqueue(new Callback<List<CurrencyMenuItem>>() {
                     @Override
-                    public void onResponse(@NonNull Call<List<CurrencyMenuItem>> call, @NonNull Response<List<CurrencyMenuItem>> response) {
+                    public void onResponse(@NonNull Call<List<CurrencyMenuItem>> call,
+                                           @NonNull Response<List<CurrencyMenuItem>> response) {
                         currencyMenuItems = response.body();
                         if (currencyMenuItems != null) {
                             populateSpinner(currencyMenuItems);
@@ -225,9 +231,10 @@ public class ForPeriodFragment extends Fragment {
         dayCurrencyRecyclerView.setAdapter(dayCurrencyAdapter);
     }
 
-    private void populateSpinner(List<CurrencyMenuItem> responseBody) {
+    private void populateSpinner(List<CurrencyMenuItem> currencyMenuItems) {
+
         List<String> currencyDesignations = new ArrayList<>();
-        for (CurrencyMenuItem currencyMenuItem: responseBody) {
+        for (CurrencyMenuItem currencyMenuItem: currencyMenuItems) {
             currencyDesignations.add(currencyMenuItem.getName());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),

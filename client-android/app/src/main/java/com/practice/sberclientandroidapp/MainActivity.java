@@ -1,7 +1,5 @@
 package com.practice.sberclientandroidapp;
 
-import android.content.res.ColorStateList;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,13 +28,11 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_for_period_page, R.id.navigation_main_page, R.id.navigation_other_page)
+                R.id.navigation_for_period_page, R.id.navigation_main_page, R.id.navigation_settings_page)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.navigation_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navigationView, navController);
-
-        //getWindow().setNavigationBarColor(getResources().getColor(R.color.green));
     }
 
 }

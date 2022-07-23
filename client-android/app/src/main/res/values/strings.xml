@@ -1,10 +1,60 @@
 <resources>
-    <string name="app_name">SberClientAndroidApp</string>
+    <string name="app_name">Курсы валют</string>
     <string name="title_main_page">Главная</string>
     <string name="title_for_period_page">За период</string>
-    <string name="title_other_page">Другое</string>
-    <string name="server_url">http://192.168.1.4:8080</string>
+    <string name="title_settings_page">Настройки</string>
+    <string name="default_server_url">http://192.168.1.4:8080</string>
     <string name="text_period_start">Дата начала периода:</string>
     <string name="text_period_end">Дата окончания периода:</string>
     <string name="buttonText_get_currencies_for_period">Получить курс валюты за период</string>
+    <string name="pref_server_ur_title">URL сервера</string>
+    <string name="pref_server_url_summary">Нажмите, чтобы задать свой URL сервера</string>
+    <string name="text_settings">Настройки</string>
+    <string name="text_charcode_and_nominal">CharCode and Nominal</string>
+    <string name="text_date">Date</string>
+    <string name="text_value">Value</string>
+
+    <string-array name="pref_favorite_currencies">
+        <item>Австралийский доллар</item>
+        <item>Фунт стерлингов Соединенного королевства</item>
+        <item>Белорусских рублей</item>
+        <item>Датских крон</item>
+        <item>Доллар США</item>
+        <item>Евро</item>
+        <item>Азербайджанский манат</item>
+        <item>Армянских драмов</item>
+        <item>Белорусский рубль</item>
+        <item>Болгарский лев</item>
+        <item>Бразильский реал</item>
+        <item>Венгерских форинтов</item>
+        <item>Гонконгских долларов</item>
+        <item>Индийских рупий</item>
+        <item>Казахстанских тенге</item>
+        <item>Канадский доллар</item>
+        <item>Киргизских сомов</item>
+        <item>Китайских юаней</item>
+        <item>Молдавских леев</item>
+        <item>Норвежских крон</item>
+        <item>Польский злотый</item>
+        <item>Румынский лей</item>
+        <item>СДР (специальные права заимствования)</item>
+        <item>Сингапурский доллар</item>
+        <item>Таджикских сомони</item>
+        <item>Турецких лир</item>
+        <item>Новый туркменский манат</item>
+        <item>Узбекских сумов</item>
+        <item>Украинских гривен</item>
+        <item>Чешских крон</item>
+        <item>Шведских крон</item>
+        <item>Швейцарский франк</item>
+        <item>Южноафриканских рэндов</item>
+        <item>Вон Республики Корея</item>
+        <item>Японских иен</item>
+    </string-array>
+
+    <string-array name="pref_default_favorite_currencies">
+        <item>Доллар США</item>
+        <item>Евро</item>
+    </string-array>
+
 </resources>

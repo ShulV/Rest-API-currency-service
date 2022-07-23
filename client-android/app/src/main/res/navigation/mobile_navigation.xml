@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_for_period_page" />
 
     <fragment
-        android:id="@+id/navigation_other_page"
-        android:name="com.practice.sberclientandroidapp.ui.other_page.OtherPageFragment"
-        android:label="@string/title_other_page"
-        tools:layout="@layout/fragment_other_page" />
+        android:id="@+id/navigation_settings_page"
+        android:name="com.practice.sberclientandroidapp.ui.settings_page.SettingsPageFragment"
+        android:label="@string/title_settings_page"
+        tools:layout="@layout/fragment_settings_page" />
 </navigation>

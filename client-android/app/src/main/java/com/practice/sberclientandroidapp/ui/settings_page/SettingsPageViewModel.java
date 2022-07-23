@@ -1,14 +1,14 @@
-package com.practice.sberclientandroidapp.ui.other_page;
+package com.practice.sberclientandroidapp.ui.settings_page;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class OtherPageViewModel extends ViewModel {
+public class SettingsPageViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public OtherPageViewModel() {
+    public SettingsPageViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("Страница с другими\nвозможностями приложения");
     }
