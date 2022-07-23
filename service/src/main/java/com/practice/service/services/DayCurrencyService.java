@@ -3,6 +3,7 @@ package com.practice.service.services;
 import com.practice.service.dao.CurrencyDAO;
 import com.practice.service.dao.DayCurrencyDAO;
 import com.practice.service.model.DayCurrency;
+import com.practice.service.model.FullCurrencyInfo;
 import com.practice.service.parser.XMLParser;
 import org.springframework.stereotype.Component;
 
@@ -168,8 +169,9 @@ public class DayCurrencyService {
         return new java.sql.Date(cal.getTimeInMillis());
     }
 
-    public List<DayCurrency> getAllTodayCurrencies() {
+    public List<FullCurrencyInfo> getAllTodayCurrencies() {
         java.util.Date todayDate = new java.util.Date();
+        System.out.println("todayDate " + todayDate);
         //TODO парсинг при надобности, проверка на существование (нужно дописать парсинг)
         return dayCurrencyDAO.getAllTodayCurrencies(todayDate);
     }

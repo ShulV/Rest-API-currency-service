@@ -1,7 +1,8 @@
 package com.practice.service.dao;
 
-import com.practice.service.model.Currency;
+import com.practice.service.dao.mappers.FullCurrencyInfoMapper;
 import com.practice.service.model.DayCurrency;
+import com.practice.service.model.FullCurrencyInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -10,9 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import java.sql.Date;
 import java.util.List;
@@ -76,14 +74,13 @@ public class DayCurrencyDAO {
                 });
     }
 
-    public List<DayCurrency> getAllTodayCurrencies(java.util.Date date) {
-        System.out.println("LOL!");
+    public List<FullCurrencyInfo> getAllTodayCurrencies(java.util.Date date) {
         return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.charcode, c.name " +
                         "FROM \"DayCurrency\" as dc " +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\" " +
                         "where \"date\" = ? " +
                         "ORDER BY c.name",
-                new BeanPropertyRowMapper<>(DayCurrency.class),
+                new FullCurrencyInfoMapper(),
                 new Object[]{date}).stream().toList();
     }
 }

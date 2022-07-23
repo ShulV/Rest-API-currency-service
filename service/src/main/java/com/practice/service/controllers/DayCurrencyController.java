@@ -2,6 +2,7 @@ package com.practice.service.controllers;
 
 import com.practice.service.dao.DayCurrencyDAO;
 import com.practice.service.model.DayCurrency;
+import com.practice.service.model.FullCurrencyInfo;
 import com.practice.service.services.DayCurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,8 +30,8 @@ public class DayCurrencyController {
         return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, charcode);
     }
 
-    @GetMapping(value = "/all-today-currency", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<DayCurrency> getAllTodayCurrencies() throws IOException, ParseException {
+    @GetMapping(value = "/all-today-currencies", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FullCurrencyInfo> getAllTodayCurrencies() {
         return dayCurrencyService.getAllTodayCurrencies();
     }
 
