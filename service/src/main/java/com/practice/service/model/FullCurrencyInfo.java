@@ -6,7 +6,6 @@ public class FullCurrencyInfo {
     private double value;
     private Date date;
     private int nominal;
-
     private int numCode;
     private String charcode;
     private String name;
@@ -59,6 +58,18 @@ public class FullCurrencyInfo {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "FullCurrencyInfo{" +
+                "value=" + value +
+                ", date=" + date +
+                ", nominal=" + nominal +
+                ", numCode=" + numCode +
+                ", charcode='" + charcode + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public FullCurrencyInfo(double value, Date date, int nominal, int numCode, String charcode, String name) {
         this.value = value;
         this.date = date;
@@ -72,14 +83,4 @@ public class FullCurrencyInfo {
 
     }
 
-    @Override
-    public String toString() {
-        return "FullCurrencyInfo{" +
-                "value=" + value +
-                ", date=" + date +
-                ", nominal=" + nominal +
-                ", charcode='" + charcode + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
