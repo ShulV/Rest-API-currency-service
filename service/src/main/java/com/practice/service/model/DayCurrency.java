@@ -27,6 +27,13 @@ public class DayCurrency implements Cloneable {
         this.nominal = nominal;
     }
 
+    public DayCurrency(double value, Date date, int nominal, String PK_id) {
+        this.value = value;
+        this.date = date;
+        this.nominal = nominal;
+        this.PK_id = PK_id;
+    }
+
     public int getPK_daycur() {
         return PK_daycur;
     }

@@ -48,8 +48,6 @@ public class CurrencyService {
             System.out.println("Parser" + (currencyListFromParser.size()));
             System.out.println("DB" + (currencyListDB.size()));
             currencyDAO.batchCurrencyUpdate(currencyListFromParser);
-
-
         }
     }
 //    TODO сделать периодическое обращение к API

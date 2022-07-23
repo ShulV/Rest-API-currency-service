@@ -19,6 +19,60 @@ import static java.lang.Integer.parseInt;
 
 @Component
 public class XMLParser {
+    DateFormat fromFormat = new SimpleDateFormat("dd.MM.yyyy");
+    DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public List<DayCurrency> xmlDailyValutes() {
+        List<DayCurrency> dayCurrencyList = new ArrayList<>();
+
+        List<String> IDList = new ArrayList<>();
+        List<Double> valueList = new ArrayList<>();
+        List<Integer> nominalList = new ArrayList<>();
+
+        Date todayDate;
+
+        String xml = "https://www.cbr.ru/scripts/XML_daily.asp";
+        Document doc;
+        try {
+            doc = Jsoup
+                    .connect(xml)
+                    .userAgent("Chrome/4.0.249.0 Safari/532.5")
+                    .referrer("http://www.google.com")
+                    .get();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            todayDate = Date.valueOf(
+                    myFormat.format(
+                            fromFormat.parse(doc.select("ValCurs")
+                            .attr("Date"))));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Element e : doc.select("Valute")) {
+            IDList.add(e.attr("ID"));
+        }
+
+        for (Element e : doc.select("Value")) {
+            valueList.add(Double.parseDouble((e.text().replace(",", "."))));
+        }
+
+        for (Element e : doc.select("Nominal")) {
+            nominalList.add(parseInt(e.text()));
+        }
+
+        for(int i = 0; i < IDList.size(); i++){
+            dayCurrencyList.add(new DayCurrency(
+                    valueList.get(i),
+                    todayDate,
+                    nominalList.get(i),
+                    IDList.get(i)));
+        }
+        return dayCurrencyList;
+    }
 
     public List<DayCurrency> xmlConnectPeriod(Date startDate,
                                               Date endDate, String currencyID) throws IOException, ParseException {
@@ -29,10 +83,8 @@ public class XMLParser {
         List<Date> dateList = new ArrayList<>();
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat fromFormat = new SimpleDateFormat("dd.MM.yyyy");
-        DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        String xml = "http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
+        String xml = "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
                 + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=" + currencyID;
         Document doc = Jsoup
                 .connect(xml)
@@ -72,7 +124,7 @@ public class XMLParser {
         List<String> CharCodeList = new ArrayList<>();
         List<String> NameList = new ArrayList<>();
 
-        String xml = "http://www.cbr.ru/scripts/XML_daily.asp";
+        String xml = "https://www.cbr.ru/scripts/XML_daily.asp";
         Document doc = Jsoup
                 .connect(xml)
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
@@ -102,7 +154,6 @@ public class XMLParser {
                             CharCodeList.get(i),
                             NameList.get(i)));
         }
-
         return currencyList;
     }
 }

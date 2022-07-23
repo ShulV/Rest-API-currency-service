@@ -38,8 +38,8 @@ public class DayCurrencyServiceTest extends AbstractJUnit4SpringContextTests {
     public void fillEmptyListTest() throws IOException, ParseException {
 
         List<DayCurrency> dayCurrencyList = dayCurrencyService
-                .getPeriodCurrencies(Date.valueOf("2005-01-01"), Date.valueOf("2005-02-01"), "USD");
-        assertEquals(dayCurrencyList.size(),32);
-
+                .getPeriodCurrencies(Date.valueOf("2007-01-01"), Date.valueOf("2008-01-01"), "USD");
+        assertEquals(dayCurrencyList.size(),365);
+        
     }
 }
