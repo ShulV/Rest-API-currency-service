@@ -1,0 +1,19 @@
+
+.currency-by-period {
+    display: flex;
+    flex-direction: row;
+}
+
+.currency-by-period__form {
+    width: 40%;
+    height: 200px;
+    outline: 3px solid red;
+    padding: 15px;
+}
+
+
+.currency-by-period__chart {
+    width: 60%;
+    height: 500px;
+    outline: 3px solid forestgreen;
+}
