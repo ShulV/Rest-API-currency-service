@@ -1,8 +1,11 @@
 import React from "react";
 
+
 const Chart = (props) => {
+
+
   return (
-    <div>big</div>
+  <div></div>
   )
 }
-export default Chart;
+export default Chart
