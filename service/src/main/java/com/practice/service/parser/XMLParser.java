@@ -23,8 +23,9 @@ public class XMLParser {
 
     DateFormat fromFormat = new SimpleDateFormat("dd.MM.yyyy");
     DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public List<FullCurrencyInfo> xmlDailyValutes() {
+    public List<FullCurrencyInfo> xmlDailyValutes(Date date) {
         List<FullCurrencyInfo> fullCurrencyList = new ArrayList<>();
 
         List<String> IDList = new ArrayList<>();
@@ -36,7 +37,7 @@ public class XMLParser {
 
         Date todayDate;
 
-        String xml = "https://www.cbr.ru/scripts/XML_daily.asp";
+        String xml = "http://www.cbr.ru/scripts/XML_daily.asp?date_req=" + dateFormat.format(date);
         Document doc;
         try {
             doc = Jsoup
@@ -101,8 +102,6 @@ public class XMLParser {
         List<Double> valueList = new ArrayList<>();
         List<Integer> nominalList = new ArrayList<>();
         List<Date> dateList = new ArrayList<>();
-
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         String xml = "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
                 + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=" + currencyID;

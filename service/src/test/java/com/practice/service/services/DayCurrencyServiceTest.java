@@ -42,4 +42,11 @@ public class DayCurrencyServiceTest extends AbstractJUnit4SpringContextTests {
         assertEquals(dayCurrencyList.size(),365);
         
     }
+
+    @Test
+    public void marchHoursTest() throws IOException, ParseException {
+        List<DayCurrency> dayCurrencyList = dayCurrencyService
+                .getPeriodCurrencies(Date.valueOf("2005-03-01"), Date.valueOf("2005-04-01"), "USD");
+
+    }
 }
