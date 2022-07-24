@@ -25,15 +25,12 @@ public class XMLParser {
     DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public List<FullCurrencyInfo> xmlDailyValutes(Date date) {
-        List<FullCurrencyInfo> fullCurrencyList = new ArrayList<>();
+    public List<DayCurrency> xmlDailyValutes(Date date) {
+        List<DayCurrency> dayCurrencyList = new ArrayList<>();
 
         List<String> IDList = new ArrayList<>();
         List<Double> valueList = new ArrayList<>();
         List<Integer> nominalList = new ArrayList<>();
-        List<String> charCodeList = new ArrayList<>();
-        List<String> nameList = new ArrayList<>();
-        List<Integer> numCodeList = new ArrayList<>();
 
         Date todayDate;
 
@@ -53,7 +50,7 @@ public class XMLParser {
             todayDate = Date.valueOf(
                     myFormat.format(
                             fromFormat.parse(doc.select("ValCurs")
-                            .attr("Date"))));
+                                    .attr("Date"))));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -70,29 +67,14 @@ public class XMLParser {
             nominalList.add(parseInt(e.text()));
         }
 
-        for (Element e : doc.select("CharCode")) {
-            charCodeList.add(e.text());
-        }
-
-        for (Element e : doc.select("NumCode")) {
-            numCodeList.add(parseInt(e.text()));
-        }
-
-        for (Element e : doc.select("Name")) {
-            nameList.add(e.text());
-        }
-
         for(int i = 0; i < IDList.size(); i++){
-            fullCurrencyList.add(new FullCurrencyInfo(
-                    IDList.get(i),
+            dayCurrencyList.add(new DayCurrency(
                     valueList.get(i),
                     todayDate,
                     nominalList.get(i),
-                    numCodeList.get(i),
-                    charCodeList.get(i),
-                    nameList.get(i)));
+                    IDList.get(i)));
         }
-        return fullCurrencyList;
+        return dayCurrencyList;
     }
 
     public List<DayCurrency> xmlConnectPeriod(Date startDate,

@@ -58,7 +58,7 @@ public class DayCurrencyService {
                 fillInEmptyLines(fromDate, toDate, dayCurrencyList, curId);
             }
         }
-        dayCurrencyDAO.batchDayCurrencyUpdate(dayCurrencyList, charcode);
+        dayCurrencyDAO.batchDayCurrencyInsert(dayCurrencyList, charcode);
         return dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
     }
 
@@ -169,19 +169,34 @@ public class DayCurrencyService {
         return new java.sql.Date(cal.getTimeInMillis());
     }
 
-    public List<FullCurrencyInfo> getAllTodayCurrencies() {
-        java.util.Date todayDate = new java.util.Date();
-        System.out.println("todayDate " + todayDate);
-        //TODO парсинг при надобности, проверка на существование (нужно дописать парсинг)
-        return dayCurrencyDAO.getAllTodayCurrencies(todayDate);
-    }
+    public List<FullCurrencyInfo> getAllCurrenciesForDay(Date date) throws IOException, ParseException {
+        int MS_IN_DAY = 1000 * 60 * 60 * 25;
+        //TODO перенести в константы
+        List<FullCurrencyInfo> fullCurrencyInfos = dayCurrencyDAO.getAllCurrenciesForDay(date);
+        if (fullCurrencyInfos.size() == currencyDAO.getAll().size()) {
+            return fullCurrencyInfos;
+        } else {
+            Date startDate = (Date) date.clone();
+            List<DayCurrency> dayCurrencyListTmp = new ArrayList<DayCurrency>();
+            //ищем дату, за которую есть данные по курсам валют
+            while (dayCurrencyListTmp.isEmpty()) {
+                // Начальная дата запрашиваемого периода.
+                startDate.setTime(startDate.getTime() - 20 * MS_IN_DAY); //возврат на 20 дней назад
+                dayCurrencyListTmp = xmlParser.xmlConnectPeriod(startDate, date, currencyDAO.getIdByCharcode("USD"));
+            }
+            Date existingDate = dayCurrencyListTmp.get(dayCurrencyListTmp.size() - 1).getDate();
+            //
+            List<DayCurrency> dayCurrencyList = xmlParser.xmlDailyValutes(existingDate);
+            //присваиваем сегодняшнюю дату
+            for (DayCurrency dayCurrency: dayCurrencyList
+            ) {
+                dayCurrency.setDate(date);
+            }
+            dayCurrencyDAO.deleteForDate(date);
+            dayCurrencyDAO.insertForDate(dayCurrencyList);
 
-////TODO для дебага
-//    private void printList(List<DayCurrency> dayCurrencyList) {
-//        for (DayCurrency dc: dayCurrencyList
-//             ) {
-//            System.out.println(dc);
-//        }
-//    }
+            return dayCurrencyDAO.getAllCurrenciesForDay(date);
+        }
+    }
 
 }

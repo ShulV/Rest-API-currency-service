@@ -30,9 +30,9 @@ public class DayCurrencyController {
         return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, charcode);
     }
 
-    @GetMapping(value = "/all-today-currencies", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FullCurrencyInfo> getAllTodayCurrencies() {
-        return dayCurrencyService.getAllTodayCurrencies();
+    @GetMapping(value = "/all-currencies-for-day", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FullCurrencyInfo> getAllCurrenciesForDay(@RequestParam(name="date") Date date) throws IOException, ParseException {
+        return dayCurrencyService.getAllCurrenciesForDay(date);
     }
 
 //    @GetMapping(value = "/testDB", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -25,7 +25,7 @@ public class DayCurrencyDAO {
     }
 
     public List<DayCurrency> getAll() {
-        return jdbcTemplate.query("SELECT * FROM DayCurrency",
+        return jdbcTemplate.query("SELECT * FROM \"DayCurrency\"",
                 new BeanPropertyRowMapper<>(DayCurrency.class));
     }
 
@@ -54,7 +54,8 @@ public class DayCurrencyDAO {
                 value, date, nominal, currencyName);
     }
 
-    public void batchDayCurrencyUpdate(List<DayCurrency> dayCurrencyList, String charcode) {
+
+    public void batchDayCurrencyInsert(List<DayCurrency> dayCurrencyList, String charcode) {
         jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\") " +
                         "VALUES (?, ?, ?, " +
                         "(SELECT \"PK_id\" " +
@@ -74,13 +75,37 @@ public class DayCurrencyDAO {
                 });
     }
 
-    public List<FullCurrencyInfo> getAllTodayCurrencies(java.util.Date date) {
-        return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.charcode, c.name " +
+    public void deleteForDate(Date date) {
+        jdbcTemplate.update("DELETE FROM public.\"DayCurrency\"" +
+                "WHERE \"date\"= ?;", date);
+    }
+
+
+    public List<FullCurrencyInfo> getAllCurrenciesForDay(java.util.Date date) {
+        return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.\"charcode\", c.\"name\"" +
                         "FROM \"DayCurrency\" as dc " +
                         "join \"Currency\" as c on c.\"PK_id\" = dc.\"PK_id\" " +
                         "where \"date\" = ? " +
-                        "ORDER BY c.name",
+                        "ORDER BY c.\"name\"",
                 new FullCurrencyInfoMapper(),
                 new Object[]{date}).stream().toList();
+    }
+
+    public void insertForDate(List<DayCurrency> dayCurrencyList) {
+        jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\") " +
+                        "VALUES (?, ?, ?, ?);",
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setDouble(1, dayCurrencyList.get(i).getValue());
+                        ps.setDate(2, dayCurrencyList.get(i).getDate());
+                        ps.setInt(3, dayCurrencyList.get(i).getNominal());
+                        ps.setString(4, dayCurrencyList.get(i).getPK_id());
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return dayCurrencyList.size();
+                    }
+                });
     }
 }
