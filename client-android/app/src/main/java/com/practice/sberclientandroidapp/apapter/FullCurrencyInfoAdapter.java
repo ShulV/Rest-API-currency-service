@@ -57,17 +57,20 @@ public class FullCurrencyInfoAdapter extends RecyclerView.Adapter<FullCurrencyIn
         holder.name.setText(fullCurrencyInfo.getName());
         holder.date.setText(dateFormat.format(fullCurrencyInfo.getDate()));
         holder.value.setText(String.format(Locale.getDefault(),
-                "%.4f " + Html.fromHtml("&#x20bd", 0), fullCurrencyInfo.getValue()));
+                "%.4f" + Html.fromHtml("&#x20bd", 0), fullCurrencyInfo.getValue()));
         if (difference > 0) {
-            holder.difference.setText(String.valueOf("+" + difference));
-            holder.difference.setTextColor(Color.GREEN);
+            holder.difference.setText(String.format(Locale.getDefault(),
+                    "+%.4f ↑", difference));
+            holder.difference.setTextColor(Color.parseColor("#197400"));
         }
         else if (Math.abs(difference) < 1.e-10){
-            holder.difference.setText(String.valueOf(difference));
+            holder.difference.setText(String.format(Locale.getDefault(),
+                    "%.4f", difference));
         }
         else {
-            holder.difference.setText(String.valueOf(difference));
-            holder.difference.setTextColor(Color.GREEN);
+            holder.difference.setText(String.format(Locale.getDefault(),
+                    "%.4f ↓", difference));
+            holder.difference.setTextColor(Color.parseColor("#A60206"));
         }
     }
 

@@ -77,7 +77,6 @@ public class MainPageFragment extends Fragment {
     }
 
     private void loadAllCurrenciesForToday(Set<String> currencyHashSet) {
-        DateFormat inDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         Date today = new Date(Calendar.getInstance().getTimeInMillis());
 
         FullCurrencyInfoAPI fullCurrencyInfoAPI =
@@ -111,8 +110,9 @@ public class MainPageFragment extends Fragment {
 
     private void loadAllCurrenciesForYesterday(List<FullCurrencyInfo> fullCurrencyInfoListForToday,
                                                Set<String> currencyHashSet) {
-        DateFormat inDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        Date yesterday = new Date(Calendar.getInstance().getTimeInMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        Date yesterday = new Date(calendar.getTimeInMillis());
 
         FullCurrencyInfoAPI fullCurrencyInfoAPI =
                 retrofitService.getRetrofit().create(FullCurrencyInfoAPI.class);
