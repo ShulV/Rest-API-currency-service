@@ -178,8 +178,7 @@ public class ForPeriodFragment extends Fragment {
                     inDateFormat.parse(startPeriodDate.getText().toString())).getTime());
             endDate = new Date(Objects.requireNonNull(
                     inDateFormat.parse(endPeriodDate.getText().toString())).getTime());
-        }
-        catch (java.text.ParseException e) {
+        } catch (java.text.ParseException e) {
             Toast.makeText(getActivity(), "Неверный формат даты", Toast.LENGTH_LONG).show();
         }
         String currencyName = spinner.getSelectedItem().toString();

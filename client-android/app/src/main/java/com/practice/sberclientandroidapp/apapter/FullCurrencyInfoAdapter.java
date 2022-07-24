@@ -1,5 +1,6 @@
 package com.practice.sberclientandroidapp.apapter;
 
+import android.graphics.Color;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,17 @@ public class FullCurrencyInfoAdapter extends RecyclerView.Adapter<FullCurrencyIn
         holder.date.setText(dateFormat.format(fullCurrencyInfo.getDate()));
         holder.value.setText(String.format(Locale.getDefault(),
                 "%.4f " + Html.fromHtml("&#x20bd", 0), fullCurrencyInfo.getValue()));
-        holder.difference.setText(String.valueOf(difference));
+        if (difference > 0) {
+            holder.difference.setText(String.valueOf("+" + difference));
+            holder.difference.setTextColor(Color.GREEN);
+        }
+        else if (Math.abs(difference) < 1.e-10){
+            holder.difference.setText(String.valueOf(difference));
+        }
+        else {
+            holder.difference.setText(String.valueOf(difference));
+            holder.difference.setTextColor(Color.GREEN);
+        }
     }
 
     @Override
