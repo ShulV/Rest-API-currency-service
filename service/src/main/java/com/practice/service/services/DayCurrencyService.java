@@ -5,6 +5,8 @@ import com.practice.service.dao.DayCurrencyDAO;
 import com.practice.service.model.DayCurrency;
 import com.practice.service.model.FullCurrencyInfo;
 import com.practice.service.parser.XMLParser;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -13,16 +15,20 @@ import java.text.ParseException;
 import java.util.*;
 
 @Component
+@PropertySource("classpath:application.properties")
 public class DayCurrencyService {
 
     private final DayCurrencyDAO dayCurrencyDAO;
     private final CurrencyDAO currencyDAO;
     private final XMLParser xmlParser;
 
-    public DayCurrencyService(DayCurrencyDAO dayCurrencyDAO, CurrencyDAO currencyDAO, XMLParser xmlParser) {
+    private final Environment environment;
+
+    public DayCurrencyService(DayCurrencyDAO dayCurrencyDAO, CurrencyDAO currencyDAO, XMLParser xmlParser, Environment environment) {
         this.dayCurrencyDAO = dayCurrencyDAO;
         this.currencyDAO = currencyDAO;
         this.xmlParser = xmlParser;
+        this.environment = environment;
     }
 
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) throws IOException, ParseException {
@@ -70,7 +76,7 @@ public class DayCurrencyService {
                                   List<DayCurrency> dayCurrencyList,
                                   String currencyId) throws IOException, ParseException {
         //TODO перенести в константы
-        int MS_IN_DAY = 1000 * 60 * 60 * 25;
+        int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
         // Конечная дата запрашиваемого периода.
@@ -111,14 +117,14 @@ public class DayCurrencyService {
     private List<DayCurrency> fillEmptyList(List<DayCurrency> dayCurrencyList,
                                             Date fromDate, Date toDate,
                                             String currencyId ) throws IOException, ParseException {
-        int MS_IN_DAY = 1000 * 60 * 60 * 25;
+        int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
         // Конечная дата запрашиваемого периода
         Date endDate = (Date) toDate.clone();
         while (dayCurrencyList.isEmpty()) {
             // Расширение периода влево на 10 дней (в прошлое).
-            startDate.setTime(startDate.getTime() - 10 * MS_IN_DAY);
+            startDate.setTime(startDate.getTime() - 10L * MS_IN_DAY);
             dayCurrencyList = xmlParser.xmlConnectPeriod(startDate, endDate, currencyId);
         }
 
@@ -136,8 +142,7 @@ public class DayCurrencyService {
     }
 
     private List<Date> getMissingDates(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
-        //TODO перенести в константы
-        int MS_IN_DAY = 1000 * 60 * 60 * 25;
+        int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
 
         Date startDate = (Date) fromDate.clone(); // Начальная дата запрашиваемого периода
         Date endDate = (Date) toDate.clone(); // Конечная дата запрашиваемого периода
@@ -170,7 +175,7 @@ public class DayCurrencyService {
     }
 
     public List<FullCurrencyInfo> getAllCurrenciesForDay(Date date) throws IOException, ParseException {
-        int MS_IN_DAY = 1000 * 60 * 60 * 25;
+        int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
         //TODO перенести в константы
         List<FullCurrencyInfo> fullCurrencyInfos = dayCurrencyDAO.getAllCurrenciesForDay(date);
         if (fullCurrencyInfos.size() == currencyDAO.getAll().size()) {
@@ -181,7 +186,7 @@ public class DayCurrencyService {
             //ищем дату, за которую есть данные по курсам валют
             while (dayCurrencyListTmp.isEmpty()) {
                 // Начальная дата запрашиваемого периода.
-                startDate.setTime(startDate.getTime() - 20 * MS_IN_DAY); //возврат на 20 дней назад
+                startDate.setTime(startDate.getTime() - 20L * MS_IN_DAY); //возврат на 20 дней назад
                 dayCurrencyListTmp = xmlParser.xmlConnectPeriod(startDate, date, currencyDAO.getIdByCharcode("USD"));
             }
             Date existingDate = dayCurrencyListTmp.get(dayCurrencyListTmp.size() - 1).getDate();
