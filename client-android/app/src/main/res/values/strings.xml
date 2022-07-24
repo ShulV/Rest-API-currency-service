@@ -13,6 +13,8 @@
     <string name="text_charcode_and_nominal">CharCode and Nominal</string>
     <string name="text_date">Date</string>
     <string name="text_value">Value</string>
+    <string name="text_difference">Разница</string>
+    <string name="text_favorite_currencies">Курсы отслеживаемых валют</string>
 
     <string-array name="pref_favorite_currencies">
         <item>Австралийский доллар</item>
@@ -52,9 +54,47 @@
         <item>Японских иен</item>
     </string-array>
 
+    <string-array name="pref_favorite_currencies_values">
+        <item>AUD</item>
+        <item>GBP</item>
+        <item>BYR</item>
+        <item>DKK</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>AZN</item>
+        <item>AMD</item>
+        <item>BYN</item>
+        <item>BGN</item>
+        <item>BRL</item>
+        <item>HUF</item>
+        <item>HKD</item>
+        <item>INR</item>
+        <item>KZT</item>
+        <item>CAD</item>
+        <item>KGS</item>
+        <item>CNY</item>
+        <item>MDL</item>
+        <item>NOK</item>
+        <item>PLN</item>
+        <item>RON</item>
+        <item>XDR</item>
+        <item>SGD</item>
+        <item>TJS</item>
+        <item>TRY</item>
+        <item>TMT</item>
+        <item>UZS</item>
+        <item>UAH</item>
+        <item>CZK</item>
+        <item>SEK</item>
+        <item>CHF</item>
+        <item>ZAR</item>
+        <item>KRW</item>
+        <item>JPY</item>
+    </string-array>
+
     <string-array name="pref_default_favorite_currencies">
-        <item>Доллар США</item>
-        <item>Евро</item>
+        <item>USD</item>
+        <item>EUR</item>
     </string-array>
 
 </resources>

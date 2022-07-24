@@ -5,11 +5,12 @@
       <map>
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22135416666666666" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
-        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/fragment_for_period_page.xml" value="0.1" />
+        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/fragment_for_period_page.xml" value="0.33" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/fragment_home.xml" value="0.20520833333333333" />
-        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/fragment_main_page.xml" value="0.19718309859154928" />
+        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/fragment_main_page.xml" value="0.33" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/fragment_other_page.xml" value="0.19718309859154928" />
-        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/list_day_currency_item.xml" value="0.276268115942029" />
+        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/list_day_currency_item.xml" value="0.33" />
+        <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/list_favorite_currency_item.xml" value="0.33" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/layout/preference_category.xml" value="0.20425724637681159" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20520833333333333" />
         <entry key="..\:/Programming/JavaPrograms/sber-practice/client-android/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20520833333333333" />

@@ -3,6 +3,7 @@ package com.practice.sberclientandroidapp.ui.for_period_page;
 
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
@@ -13,15 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,6 +66,7 @@ public class ForPeriodFragment extends Fragment {
     private Button getCurrenciesForPeriodButton;
     private RecyclerView dayCurrencyRecyclerView;
     private String serverURL;
+    private ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -99,8 +104,12 @@ public class ForPeriodFragment extends Fragment {
 
         initializeDate();
 
+        progressBar = root.findViewById(R.id.progressBar_for_period_page);
         dayCurrencyRecyclerView = root.findViewById(R.id.recyclerView_dayCurrency);
         dayCurrencyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        dayCurrencyRecyclerView
+                .addItemDecoration(new DividerItemDecoration(dayCurrencyRecyclerView.getContext(),
+                        DividerItemDecoration.VERTICAL));
 
         View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
             @Override
@@ -129,6 +138,7 @@ public class ForPeriodFragment extends Fragment {
             public void onClick(View v) {
                 getDatesFromEditText();
                 if (isDataCorrect()) {
+                    progressBar.setVisibility(View.VISIBLE);
                     loadCurrenciesForPeriod();
                 }
                 else {
@@ -180,11 +190,13 @@ public class ForPeriodFragment extends Fragment {
                     public void onResponse(@NonNull Call<List<DayCurrency>> call,
                                            @NonNull Response<List<DayCurrency>> response) {
                         populateRecyclerView(response.body(), charCode);
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<List<DayCurrency>> call, @NonNull Throwable t) {
                         Toast.makeText(getActivity(), "Ошибка загрузки данных с сервера", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }

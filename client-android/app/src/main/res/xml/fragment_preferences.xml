@@ -15,7 +15,7 @@
             android:title="Отслеживаемые валюты"
             android:summary="Нажмите, чтобы выбрать список отслеживаемых валют"
             android:entries="@array/pref_favorite_currencies"
-            android:entryValues="@array/pref_favorite_currencies"
+            android:entryValues="@array/pref_favorite_currencies_values"
             android:defaultValue="@array/pref_default_favorite_currencies"/>
     </PreferenceCategory>
 </PreferenceScreen>
