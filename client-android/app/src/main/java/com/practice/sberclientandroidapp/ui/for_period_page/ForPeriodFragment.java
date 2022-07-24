@@ -182,14 +182,15 @@ public class ForPeriodFragment extends Fragment {
         catch (java.text.ParseException e) {
             Toast.makeText(getActivity(), "Неверный формат даты", Toast.LENGTH_LONG).show();
         }
-        String charCode = getCurrencyCharCodeByDesignation(spinner.getSelectedItem().toString());
+        String currencyName = spinner.getSelectedItem().toString();
+        String charCode = getCurrencyCharCodeByDesignation(currencyName);
         DayCurrencyAPI dayCurrencyAPI = retrofitService.getRetrofit().create(DayCurrencyAPI.class);
         dayCurrencyAPI.getCurrenciesForPeriod(startDate, endDate, charCode)
                 .enqueue(new Callback<List<DayCurrency>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<DayCurrency>> call,
                                            @NonNull Response<List<DayCurrency>> response) {
-                        populateRecyclerView(response.body(), charCode);
+                        populateRecyclerView(response.body(), charCode, currencyName);
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -237,9 +238,10 @@ public class ForPeriodFragment extends Fragment {
         return "";
     }
 
-    private void populateRecyclerView(List<DayCurrency> responseBody, String currencyCharCode) {
+    private void populateRecyclerView(List<DayCurrency> responseBody,
+                                      String currencyCharCode, String currencyName) {
         DayCurrencyAdapter dayCurrencyAdapter =
-                new DayCurrencyAdapter(responseBody, currencyCharCode);
+                new DayCurrencyAdapter(responseBody, currencyCharCode, currencyName);
         dayCurrencyRecyclerView.setAdapter(dayCurrencyAdapter);
     }
 

@@ -15,6 +15,7 @@
     <string name="text_value">Value</string>
     <string name="text_difference">Разница</string>
     <string name="text_favorite_currencies">Курсы отслеживаемых валют</string>
+    <string name="text_currency_name">Currency name</string>
 
     <string-array name="pref_favorite_currencies">
         <item>Австралийский доллар</item>

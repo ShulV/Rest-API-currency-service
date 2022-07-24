@@ -53,6 +53,7 @@ public class FullCurrencyInfoAdapter extends RecyclerView.Adapter<FullCurrencyIn
         }
 
         holder.charCodeAndNominal.setText(textCharCodeAndNominal);
+        holder.name.setText(fullCurrencyInfo.getName());
         holder.date.setText(dateFormat.format(fullCurrencyInfo.getDate()));
         holder.value.setText(String.format(Locale.getDefault(),
                 "%.4f " + Html.fromHtml("&#x20bd", 0), fullCurrencyInfo.getValue()));

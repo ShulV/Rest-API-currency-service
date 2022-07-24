@@ -10,11 +10,12 @@ import com.practice.sberclientandroidapp.R;
 
 public class FullCurrencyInfoHolder extends RecyclerView.ViewHolder {
 
-    TextView charCodeAndNominal, date, value, difference;
+    TextView charCodeAndNominal, name, date, value, difference;
 
     public FullCurrencyInfoHolder(@NonNull View itemView) {
         super(itemView);
         charCodeAndNominal = itemView.findViewById(R.id.favoriteListItem_charCodeAndNominal);
+        name = itemView.findViewById(R.id.favoriteListItem_name);
         date = itemView.findViewById(R.id.favoriteListItem_date);
         value = itemView.findViewById(R.id.favoriteListItem_value);
         difference = itemView.findViewById(R.id.favoriteListItem_difference);

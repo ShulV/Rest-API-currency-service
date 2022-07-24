@@ -21,9 +21,12 @@ public class DayCurrencyAdapter extends RecyclerView.Adapter<DayCurrencyHolder> 
 
     private List<DayCurrency> dayCurrencyList;
     private String currencyCharCode;
+    private String currencyName;
 
-    public DayCurrencyAdapter(List<DayCurrency> dayCurrencyList, String currencyCharCode) {
+    public DayCurrencyAdapter(List<DayCurrency> dayCurrencyList,
+                              String currencyCharCode, String currencyName) {
         this.dayCurrencyList = dayCurrencyList;
+        this.currencyName = currencyName;
         this.currencyCharCode = currencyCharCode;
     }
 
@@ -51,6 +54,7 @@ public class DayCurrencyAdapter extends RecyclerView.Adapter<DayCurrencyHolder> 
         }
 
         holder.charCodeAndNominal.setText(textCharCodeAndNominal);
+        holder.name.setText(currencyName);
         holder.date.setText(dateFormat.format(dayCurrency.getDate()));
         // Заполнение EditText курсом валюты с точностью до 4-х знаков после запятой и знакои рубля.
         holder.value.setText(String.format(Locale.getDefault(),

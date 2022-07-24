@@ -15,12 +15,13 @@ import java.util.Locale;
 
 public class DayCurrencyHolder extends RecyclerView.ViewHolder {
 
-    TextView charCodeAndNominal, date, value;
+    TextView charCodeAndNominal, name, date, value;
 
     public DayCurrencyHolder(@NonNull View itemView) {
         super(itemView);
         charCodeAndNominal = itemView.findViewById(R.id.listItem_charCodeAndNominal);
         date = itemView.findViewById(R.id.listItem_date);
         value = itemView.findViewById(R.id.listItem_value);
+        name = itemView.findViewById(R.id.listItem_name);
     }
 }
