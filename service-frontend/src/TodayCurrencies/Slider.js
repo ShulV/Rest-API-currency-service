@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Slide from './Slide'
 import cn from 'classnames'
 import './css/style.css'
@@ -17,7 +17,7 @@ const Slider = (props) => {
         })
         nextAllowed = true
       }
-      if (position == 0) {
+      if (position === 0) {
         prevAllowed = false
         nextAllowed = true
       }
@@ -33,7 +33,7 @@ const Slider = (props) => {
         })
         prevAllowed = true
       }
-      if (position == -(props.currencies.length - 3) * 300) {
+      if (position === -(props.currencies.length - 3) * 300) {
         prevAllowed = true
         nextAllowed = false
       }

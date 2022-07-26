@@ -1,10 +1,3 @@
-@import url('../../variables.css');
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
 .today-currencies__slider-wrapper {
     margin: 0 auto;
@@ -77,6 +70,13 @@
     text-align: center;
     font-size: 16px;
     font-weight: 300;
+}
+
+.today-currencies__slide-nominal {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300;
+    margin: auto 0;
 }
 
 .today-currencies__slide-value {
