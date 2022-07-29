@@ -1,16 +1,10 @@
 package com.practice.sberclientandroidapp.retrofit;
 
-import android.content.res.Resources;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.practice.sberclientandroidapp.R;
-
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.sql.Date;
@@ -21,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 // Object of this class is used to connect to server.
 public class RetrofitService {
     private Retrofit retrofit;
-    private String serverURL;
+    private final String serverURL;
     // Constructor with initializing retrofit field.
     public RetrofitService(String serverURL) {
         this.serverURL = serverURL;
