@@ -93,7 +93,7 @@ function App() {
         <h1 className='section-header'>Курсы валют по периоду</h1>
         <CurrencyByPeriod className='currency-by-period' currencies={currencies} />
       </section>
-      <Bar options={chartOptions} data={chartData} />
+      {/* <Bar options={chartOptions} data={chartData} /> */}
     </main>
   );
 }

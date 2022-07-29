@@ -1,43 +1,33 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Select from './Select'
 import './css/style.css'
+import formatDate from '../utils/dateMethods'
 
-function formatDate(date) {
-
-    var dd = date.getDate();
-    if (dd < 10) dd = '0' + dd;
-  
-    var mm = date.getMonth() + 1;
-    if (mm < 10) mm = '0' + mm;
-  
-    var yyyy = date.getFullYear();
-  
-    return `${yyyy}-${mm}-${dd}`
-  }
 
   
 const Form = (props) => {
-    const [selectOption, setSelectOption] = useState('USD')
+    
     const [fromDate, setFromDate] = useState(formatDate(new Date()))
     const [toDate, setToDate] = useState(formatDate(new Date()))
-    const [periodCurrencies, setPeriodCurrencies] = useState([])
+    
 
     async function currencyFetch() {
-        fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${selectOption}`)
-        .then(response => response.json())
-        .then(periodCurrencies => {
-          setPeriodCurrencies(periodCurrencies)
-        })
+        const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${props.selectOption}`)
+        if (response.ok) {
+            const periodCurrencies = await response.json()
+            props.setPeriodCurrencies(periodCurrencies)
+        }
+        else {
+            alert(`Запрос не выполнен. Ответ сервера ${response.status}`)
+        }
+        
     }
 
     async function getDataForPeriod() {
-        console.log(`selectOption = ${selectOption}, minDate = ${fromDate}, maxDate = ${toDate}`)
+        console.log(`selectOption = ${props.selectOption}, minDate = ${props.fromDate}, maxDate = ${props.toDate}`)
 
         await currencyFetch()
-
-        await console.log(periodCurrencies)
-
-        // TODO сделать 
+        await console.log(props.periodCurrencies)
 
     }
     
@@ -50,7 +40,7 @@ const Form = (props) => {
     }
 
     const selectOptionHandler = (event) => {
-        setSelectOption(getCharcode(event.target.value))
+        props.setSelectOption(getCharcode(event.target.value))
     }
 
     const getCharcode = (currencyName) => {
@@ -61,7 +51,7 @@ const Form = (props) => {
 
     return (
         <form className='currency-by-period__form'>
-            <Select currencies={props.currencies} selectOptionHandler={selectOptionHandler}/>
+            <Select currencies={props.currencies} selectOptionHandler={props.selectOptionHandler}/>
             <div>
                 <span>От:</span>
                 <input type="date" min="2000-01-01" max={formatDate(new Date())} onChange={fromDateHandler} ></input>
