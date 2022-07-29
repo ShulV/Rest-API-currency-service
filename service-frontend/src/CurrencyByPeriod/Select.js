@@ -4,7 +4,6 @@ import './css/style.css'
 
 const Select = (props) => {
 
-
     return (
         
         <select className='currency-by-period__select' onChange={props.selectOptionHandler}>
