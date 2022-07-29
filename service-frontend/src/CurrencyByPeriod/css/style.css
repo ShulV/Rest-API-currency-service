@@ -8,7 +8,7 @@
     width: 40%;
     height: 200px;
     outline: 3px solid red;
-    padding: 15px;
+    padding: 30px;
 }
 
 
@@ -16,4 +16,10 @@
     width: 60%;
     height: 500px;
     outline: 3px solid forestgreen;
+}
+
+.currency-by-period__list {
+    width: 40%;
+    outline: 3px solid red;
+    padding: 30px;
 }

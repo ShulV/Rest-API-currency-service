@@ -5,7 +5,7 @@ import './css/style.css'
 const PeriodCurrencyList = (props) => {
 
     return (
-        <div>
+        <div className='currency-by-period__list'  >
             <h2>Курс {props.selectOption} за период</h2>
             <ul>
             {   
