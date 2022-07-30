@@ -22,8 +22,8 @@ const CurrencyByPeriod = (props) => {
     const getLabelList = (currencies) => {
       const labelList = []
       currencies.forEach(currency => {
-        console.log('foreach')
-        console.log(currency)
+        // console.log('foreach')
+        // console.log(currency)
         labelList.push(formatDate(new Date(currency.date)))
       });
       return labelList
@@ -38,15 +38,14 @@ const CurrencyByPeriod = (props) => {
     }
 
     const updateChartData = (currencies, selectOption) => {
-      
-      console.log("cur")
-      console.log(currencies)
+      // console.log("cur")
+      // console.log(currencies)
       const labels = getLabelList(currencies)
       const data = getDataList(currencies)
-      console.log("labels")
-      console.log(labels)
-      console.log("data")
-      console.log(data)
+      // console.log("labels")
+      // console.log(labels)
+      // console.log("data")
+      // console.log(data)
       setChartData({
         labels: labels,
         datasets: [

@@ -7,8 +7,6 @@ import formatDate from '../utils/dateMethods'
   
 const Form = (props) => {
     
-    // const [currencyName, setCurrencyName] = useState("")
-
     const [fromDate, setFromDate] = useState(formatDate(new Date()))
     const [toDate, setToDate] = useState(formatDate(new Date()))
     const [selectOption, setSelectOption] = useState("USD")
@@ -18,11 +16,10 @@ const Form = (props) => {
         const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${props.selectOption}`)
         if (response.ok) {
             const periodCurrencies = await response.json()
-            console.log("response ok: periodCurrencies")
-            
+            // console.log("response ok: periodCurrencies")
+
             props.setPeriodCurrencies(periodCurrencies)
-            console.log(props.periodCurrencies)
-            props.updateChartData(props.periodCurrencies, props.selectOption)
+            props.updateChartData(periodCurrencies, selectOption)
         }
         else {
             alert(`Запрос не выполнен. Ответ сервера ${response.status}`)
@@ -31,26 +28,32 @@ const Form = (props) => {
     }
 
     async function getDataForPeriod() {
-        console.log(`selectOption = ${props.selectOption}, minDate = ${fromDate}, maxDate = ${toDate}`)
-
-        await currencyFetch()
+        
         props.setSelectOption(selectOption)
         props.setFromDate(fromDate)
         props.setToDate(toDate)
+        console.log(`selectOption = ${selectOption}, minDate = ${fromDate}, maxDate = ${toDate}`)
+        console.log(`props.selectOption = ${props.selectOption}, props.minDate = ${props.fromDate}, props.maxDate = ${props.toDate}`)
+        await currencyFetch()
+        
         await console.log(props.periodCurrencies)
 
     }
     
     const fromDateHandler = (event) => {
         setFromDate(event.target.value)
+        console.log("новый fromDate " + event.target.value)
     }
 
     const toDateHandler = (event) => {
         setToDate(event.target.value)
+        console.log("новый toDate " + event.target.value)
     }
+    
 
     const selectOptionHandler = (event) => {
         setSelectOption(getCharcode(event.target.value))
+        console.log("новый select " + getCharcode(event.target.value))
     }
 
     const getCharcode = (currencyName) => {
