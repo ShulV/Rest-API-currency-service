@@ -1,25 +1,119 @@
 
 .currency-by-period {
     display: flex;
+    flex-direction: column;
+}
+
+.currency-by-period__text-block {
+    display: flex;
     flex-direction: row;
+
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--background-2-color);
 }
 
-.currency-by-period__form {
-    width: 40%;
-    height: 200px;
-    outline: 3px solid red;
-    padding: 30px;
-}
-
-
-.currency-by-period__chart {
-    width: 60%;
-    height: 500px;
-    outline: 3px solid forestgreen;
+.currency-by-period__form-block {
+    padding: 30px 45px;
+    width: 50%;   
 }
 
 .currency-by-period__list {
-    width: 40%;
-    outline: 3px solid red;
-    padding: 30px;
+    padding: 30px 45px;
+    width: 50%;
+    border-left: 1px dashed var(--dark-green);
+    
+}
+
+.currency-by-period__list-ul {
+    max-height: 300px;
+    overflow-y: auto;
+    
+}
+
+.currency-by-period__list-li {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    color: rgb(203, 255, 198)
+}
+
+.currency-by-period__list-li::before {
+    content: " ";
+    width: 7px;
+    height: 7px;
+    margin-top: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+.currency-by-period__list-li-date {
+    margin-left: 15px;
+}
+
+.currency-by-period__list-li-value {
+    margin-left: 15px;
+}
+
+.currency-by-period__chart {
+    padding: 30px 45px;
+    width: 100%;
+}
+
+.currency-by-period__select {
+    outline-width: 0px;
+    border-width: 0px;
+    height: 30px;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+.currency-by-period__from-date-block,
+.currency-by-period__to-date-block {
+    margin-bottom: 30px;
+    color: white;
+}
+
+.currency-by-period__from-date,
+.currency-by-period__to-date {
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.currency-by-period__form-btn {
+    box-sizing: border-box;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background-color: transparent;
+    border-radius: 0.6em;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-self: center;
+        -ms-flex-item-align: center;
+            align-self: center;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    padding: 1.2em 2.8em;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+        border-color: transparent;
+        outline: transparent;
+        color: #fff;
+        box-shadow: 0 0 40px 40px var(--btn-background) inset, 0 0 0 0 var(--btn-background);
+        -webkit-transition: all 150ms ease-in-out;
+        transition: all 150ms ease-in-out;
+}
+
+.currency-by-period__form-btn:hover, 
+.currency-by-period__form-btn:focus {
+    box-shadow: 0 0 10px 0  var(--btn-color) inset, 0 0 10px 4px  var(--btn-color);
+    border-color: transparent;
+        outline: transparent;
 }

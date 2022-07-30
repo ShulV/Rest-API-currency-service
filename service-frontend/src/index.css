@@ -16,7 +16,7 @@ body {
   margin: 0 auto;
   width: 1200px;
   padding-top: 30px;
-  background-color: var(--light-blue);
+  background-color: var(--background-color);
 }
 
 .section:last-child {
@@ -27,5 +27,11 @@ body {
   font-size: 30px;
   text-align: center;
   margin-bottom: 30px;
-  color: var(--black);
+  color: var(--header-color);
+}
+
+.section-header-2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--header-color);
 }

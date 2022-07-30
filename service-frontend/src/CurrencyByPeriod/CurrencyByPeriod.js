@@ -52,8 +52,8 @@ const CurrencyByPeriod = (props) => {
           {
             label: selectOption,
             data: data,
-            borderColor: "rgb(53, 162, 235)",
-            backgroundColor: "rgba(53, 162, 235, 0.4",
+            borderColor: "rgb(73, 211, 146)",
+            backgroundColor: "rgba(73, 211, 146, 0.6)",
           }
         ]
       })
@@ -62,6 +62,30 @@ const CurrencyByPeriod = (props) => {
     useEffect(() => {    
         setChartOptions({
           responsive: true,
+          scales: {
+            xAxes: [{
+              gridLines: {
+                display: false,
+                color: "black"
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Time in Seconds",
+                fontColor: "red"
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                color: "black",
+                borderDash: [2, 5],
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Speed in Miles per Hour",
+                fontColor: "green"
+              }
+            }]
+          },
           plugins: {
             legend: {
               position: "top"
@@ -69,14 +93,23 @@ const CurrencyByPeriod = (props) => {
             title: {
               display: true,
               text: "some text"
-            }
-          }
+            },
+
+            
+          
+
+
+
+
+          },
+          
         })
     }, [])
 
     return (
-        <div>
-            <Form 
+        <div className="currency-by-period">
+            <div className='currency-by-period__text-block'>
+              <Form 
                 currencies={props.currencies} 
                 setPeriodCurrencies={setPeriodCurrencies} 
                 periodCurrencies={periodCurrencies}
@@ -86,7 +119,12 @@ const CurrencyByPeriod = (props) => {
                 setToDate={setToDate}
                 updateChartData={updateChartData}
                 className='currency-by-period__form'
-            />
+              />
+              <PeriodCurrencyList 
+                selectOption={selectOption}
+                periodCurrencies={periodCurrencies} 
+              />
+            </div>
             {periodCurrencies.length > 0 &&
                 <Chart 
                     chartOptions={chartOptions}
@@ -94,10 +132,7 @@ const CurrencyByPeriod = (props) => {
                 />
             }
 
-            <PeriodCurrencyList 
-                selectOption={selectOption}
-                periodCurrencies={periodCurrencies} 
-            />
+            
         </div>
     )
 }

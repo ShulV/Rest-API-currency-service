@@ -1,4 +1,9 @@
 :root {
+    --background-color: #2c3e50;
+    --background-2-color: rgb(70, 95, 121);
+    --header-color: rgb(73, 211, 146);
+    --btn-color: rgb(31, 243, 144);
+    --btn-background: rgb(0, 140, 100);
     --dark-blue: #397ccc;
     --light-blue: #8cb8ec;
     --dark-green: #0c7344;

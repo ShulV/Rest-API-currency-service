@@ -16,8 +16,6 @@ const Form = (props) => {
         const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${props.selectOption}`)
         if (response.ok) {
             const periodCurrencies = await response.json()
-            // console.log("response ok: periodCurrencies")
-
             props.setPeriodCurrencies(periodCurrencies)
             props.updateChartData(periodCurrencies, selectOption)
         }
@@ -32,8 +30,6 @@ const Form = (props) => {
         props.setSelectOption(selectOption)
         props.setFromDate(fromDate)
         props.setToDate(toDate)
-        console.log(`selectOption = ${selectOption}, minDate = ${fromDate}, maxDate = ${toDate}`)
-        console.log(`props.selectOption = ${props.selectOption}, props.minDate = ${props.fromDate}, props.maxDate = ${props.toDate}`)
         await currencyFetch()
         
         await console.log(props.periodCurrencies)
@@ -42,18 +38,15 @@ const Form = (props) => {
     
     const fromDateHandler = (event) => {
         setFromDate(event.target.value)
-        console.log("новый fromDate " + event.target.value)
     }
 
     const toDateHandler = (event) => {
         setToDate(event.target.value)
-        console.log("новый toDate " + event.target.value)
     }
     
 
     const selectOptionHandler = (event) => {
         setSelectOption(getCharcode(event.target.value))
-        console.log("новый select " + getCharcode(event.target.value))
     }
 
     const getCharcode = (currencyName) => {
@@ -63,21 +56,25 @@ const Form = (props) => {
     }
 
     return (
-        <form className='currency-by-period__form'>
-            <Select 
+        <div className="currency-by-period__form-block">
+            <h2 className='section-header-2'>Форма</h2>
+            <form className='currency-by-period__form'>
+                <Select 
                 currencies={props.currencies}
                 selectOptionHandler={selectOptionHandler}
-            />
-            <div>
-                <span>От:</span>
-                <input type="date" min="2000-01-01" max={formatDate(new Date())} onChange={fromDateHandler} ></input>
-            </div>
-            <div>   
-                <span>До:</span>
-                <input type="date" min="2000-01-01" max={formatDate(new Date())} onChange={toDateHandler} ></input>     
-            </div>
-            <input type='button' value='Получить данные' onClick={getDataForPeriod}></input>
-        </form>
+                />
+                <div className="currency-by-period__from-date-block">
+                    <span>От:</span>
+                    <input  className="currency-by-period__from-date" type="date" min="2000-01-01" max={formatDate(new Date())} onChange={fromDateHandler} ></input>
+                </div>
+                <div className="currency-by-period__to-date-block">   
+                    <span>До:</span>
+                    <input className="currency-by-period__to-date" type="date" min="2000-01-01" max={formatDate(new Date())} onChange={toDateHandler} ></input>     
+                </div>
+                <input className="currency-by-period__form-btn" type='button' value='Получить данные' onClick={getDataForPeriod}></input>
+            </form>
+        </div>
+        
     )
 }
 

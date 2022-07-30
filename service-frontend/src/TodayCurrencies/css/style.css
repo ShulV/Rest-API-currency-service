@@ -23,7 +23,7 @@
     width: 100px;
     border-width: 0;
     border-radius: 50%;
-    background: url('../../img/arrow.png');
+    background: url('../../img/arrow-white.png');
     background-size: 70px 70px;
     background-repeat: no-repeat;
     background-position: 20px center;
@@ -33,8 +33,11 @@
 }
 
 .today-currencies__slider-btn:hover {
-    opacity: 1;
-    background-color: rgba(0, 0, 0, 0.1);
+    opacity: 0.85;
+    background-size: 70px 70px;
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    box-shadow: 0 0 10px 0 var(--btn-color) inset, 0 0 10px 4px var(--btn-color);
     
 }
 

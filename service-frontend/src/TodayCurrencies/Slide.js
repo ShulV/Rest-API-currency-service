@@ -15,7 +15,7 @@ const Slide = (props) => {
                 единиц: {props.currency.nominal}
             </div>
             <div className='today-currencies__slide-value'>
-                {props.currency.value} руб.
+                {props.currency.value} ₽
             </div>
          
         </div>

@@ -29,9 +29,8 @@ function App() {
       <section className="section">
         <h1 className='section-header'>Курсы валют по периоду</h1>
         <CurrencyByPeriod 
-          className='currency-by-period'
           currencies={currencies}
-          />
+        />
       </section>
     </main>
   );

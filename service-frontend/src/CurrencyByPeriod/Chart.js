@@ -31,8 +31,11 @@ const Chart = (props) => {
 
 
   return (
-    // <div></div>
-    <Line data={props.chartData} />
+    <div className="currency-by-period__chart">
+      <h2 className='section-header-2'>График</h2>
+      <Line data={props.chartData} />
+    </div>
+    
   )
 }
 export default Chart
