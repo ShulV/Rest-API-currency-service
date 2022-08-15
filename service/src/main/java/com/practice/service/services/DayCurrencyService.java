@@ -76,7 +76,7 @@ public class DayCurrencyService {
                                   List<DayCurrency> dayCurrencyList,
                                   String currencyId) throws IOException, ParseException {
         //TODO перенести в константы
-        int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
+        int MS_IN_DAY = Integer.parseInt((Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY"))));
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
         // Конечная дата запрашиваемого периода.

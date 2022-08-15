@@ -2,7 +2,6 @@ package com.practice.service.parser;
 
 import com.practice.service.model.Currency;
 import com.practice.service.model.DayCurrency;
-import com.practice.service.model.FullCurrencyInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

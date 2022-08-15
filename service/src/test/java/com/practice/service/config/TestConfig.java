@@ -12,7 +12,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @TestConfiguration
-//@Import(ServiceApplication.class)
 public class TestConfig {
 
     @Bean
