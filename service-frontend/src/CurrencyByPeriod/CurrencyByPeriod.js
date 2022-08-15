@@ -6,7 +6,6 @@ import './css/style.css'
 import formatDate from '../utils/dateMethods'
 
 
-
 const CurrencyByPeriod = (props) => {
 
     const [chartData, setChartData] = useState({
@@ -111,7 +110,8 @@ const CurrencyByPeriod = (props) => {
         <div className="currency-by-period">
             <div className='currency-by-period__text-block'>
               {/* Форма запроса валюты за период */}
-              <Form 
+              {!props.currenciesLoaded &&
+                <Form 
                 currencies={props.currencies} 
                 setPeriodCurrencies={setPeriodCurrencies} 
                 periodCurrencies={periodCurrencies}
@@ -121,7 +121,8 @@ const CurrencyByPeriod = (props) => {
                 setToDate={setToDate}
                 updateChartData={updateChartData}
                 className='currency-by-period__form'
-              />
+                />  
+              }
               {/* Список дата-значение для валюты */}
               {periodCurrencies.length > 0 &&
                 <PeriodCurrencyList 

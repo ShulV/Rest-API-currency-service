@@ -4,6 +4,7 @@ import cn from 'classnames'
 import './css/style.css'
 
 const Slider = (props) => {
+
     const slider = useRef(null)
     let prevAllowed = false
     let nextAllowed = true
@@ -46,6 +47,7 @@ const Slider = (props) => {
           { 
             props.currencies.map((currency, index) => {
                return (
+
                 <Slide currency={currency} index={index} key={index}/>
                )
             })
