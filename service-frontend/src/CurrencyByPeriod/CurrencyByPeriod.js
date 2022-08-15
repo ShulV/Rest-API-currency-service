@@ -38,14 +38,15 @@ const CurrencyByPeriod = (props) => {
     }
 
     const updateChartData = (currencies, selectOption) => {
-      // console.log("cur")
+      // console.log("----------------------------------------------------------------------------")
+      // console.log("updateChartData(currencies, selectOption)")
+      // console.log("currencies")
       // console.log(currencies)
+      // console.log("selectOption")
+      // console.log(selectOption)
+
       const labels = getLabelList(currencies)
       const data = getDataList(currencies)
-      // console.log("labels")
-      // console.log(labels)
-      // console.log("data")
-      // console.log(data)
       setChartData({
         labels: labels,
         datasets: [
@@ -109,6 +110,7 @@ const CurrencyByPeriod = (props) => {
     return (
         <div className="currency-by-period">
             <div className='currency-by-period__text-block'>
+              {/* Форма запроса валюты за период */}
               <Form 
                 currencies={props.currencies} 
                 setPeriodCurrencies={setPeriodCurrencies} 
@@ -120,12 +122,17 @@ const CurrencyByPeriod = (props) => {
                 updateChartData={updateChartData}
                 className='currency-by-period__form'
               />
-              <PeriodCurrencyList 
-                selectOption={selectOption}
-                periodCurrencies={periodCurrencies} 
-              />
+              {/* Список дата-значение для валюты */}
+              {periodCurrencies.length > 0 &&
+                <PeriodCurrencyList 
+                  selectOption={selectOption}
+                  periodCurrencies={periodCurrencies} 
+                />
+              }
+              
             </div>
-            {periodCurrencies.length > 0 &&
+            {/* График */}
+            {periodCurrencies.length > 2 &&
                 <Chart 
                     chartOptions={chartOptions}
                     chartData={chartData}

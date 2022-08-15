@@ -7,16 +7,24 @@ import formatDate from '../utils/dateMethods'
   
 const Form = (props) => {
     
-    const [fromDate, setFromDate] = useState(formatDate(new Date()))
-    const [toDate, setToDate] = useState(formatDate(new Date()))
-    const [selectOption, setSelectOption] = useState("USD")
+    const [fromDate, setFromDate] = useState(formatDate(new Date())) //по умолчанию текущая дата
+    const [toDate, setToDate] = useState(formatDate(new Date())) //по умолчанию текущая дата
+    const [selectOption, setSelectOption] = useState("AUD") //по умолчанию Австралийский доллар
     
 
     async function currencyFetch() {
-        const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${props.selectOption}`)
+        // console.log("----------------------------------------------------------------------------")
+        // console.log("currencyFetch()")
+        // console.log(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${selectOption}`)
+        const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${selectOption}`)
         if (response.ok) {
-            const periodCurrencies = await response.json()
+            let periodCurrencies = null;
+            periodCurrencies = await response.json()
+            // console.log("periodCurrencies = await response.json()")
+            // console.log(periodCurrencies)
             props.setPeriodCurrencies(periodCurrencies)
+            props.setFromDate(fromDate)
+            props.setToDate(toDate)
             props.updateChartData(periodCurrencies, selectOption)
         }
         else {
@@ -32,7 +40,7 @@ const Form = (props) => {
         props.setToDate(toDate)
         await currencyFetch()
         
-        await console.log(props.periodCurrencies)
+        // await console.log(props.periodCurrencies)
 
     }
     
@@ -46,6 +54,7 @@ const Form = (props) => {
     
 
     const selectOptionHandler = (event) => {
+        // console.log("======selectOptionHandler        getCharcode(event.target.value) = " + getCharcode(event.target.value))
         setSelectOption(getCharcode(event.target.value))
     }
 
