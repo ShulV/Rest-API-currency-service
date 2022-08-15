@@ -18,16 +18,15 @@ const CurrencyByPeriod = (props) => {
     const [toDate, setToDate] = useState(formatDate(new Date()))
     const [selectOption, setSelectOption] = useState('USD')
 
+    // получить массив названий валют из массива объектов currencies
     const getLabelList = (currencies) => {
       const labelList = []
       currencies.forEach(currency => {
-        // console.log('foreach')
-        // console.log(currency)
         labelList.push(formatDate(new Date(currency.date)))
       });
       return labelList
     }
-
+    // получить массив значений value из массива объектов currencies
     const getDataList = (currencies) => {
       const dataList = []
       currencies.forEach(currency => {
@@ -35,15 +34,8 @@ const CurrencyByPeriod = (props) => {
       });
       return dataList
     }
-
+    // обновить данные для диаграммы
     const updateChartData = (currencies, selectOption) => {
-      // console.log("----------------------------------------------------------------------------")
-      // console.log("updateChartData(currencies, selectOption)")
-      // console.log("currencies")
-      // console.log(currencies)
-      // console.log("selectOption")
-      // console.log(selectOption)
-
       const labels = getLabelList(currencies)
       const data = getDataList(currencies)
       setChartData({

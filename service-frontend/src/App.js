@@ -11,7 +11,7 @@ function App() {
   const [currenciesLoaded, setCurrenciesLoaded] = useState(true);
   
 
-  // данные для слайдера и выпадающего списка
+  //начальные данные для слайдера и выпадающего списка
   useEffect(() => {
     fetch(`http://localhost:8080/api/currency/all-currencies-for-day?date=${formatDate(new Date())}`)
     .then(response => response.json())
