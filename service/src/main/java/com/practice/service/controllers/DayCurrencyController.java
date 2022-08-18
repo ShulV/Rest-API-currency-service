@@ -17,27 +17,18 @@ import java.util.List;
 @RequestMapping("/api/currency")
 public class DayCurrencyController {
     private final DayCurrencyService dayCurrencyService;
-
     @Autowired
     public DayCurrencyController(DayCurrencyService dayCurrencyService) {
         this.dayCurrencyService = dayCurrencyService;
     }
-
     @GetMapping(value = "/period-currencies", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DayCurrency> getCurrenciesForPeriod(@RequestParam(name="fromDate") Date fromDate,
                                                     @RequestParam(name="toDate") Date toDate,
                                                     @RequestParam(name="charcode") String charcode) throws IOException, ParseException {
         return dayCurrencyService.getPeriodCurrencies(fromDate, toDate, charcode);
     }
-
     @GetMapping(value = "/all-currencies-for-day", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FullCurrencyInfo> getAllCurrenciesForDay(@RequestParam(name="date") Date date) throws IOException, ParseException {
         return dayCurrencyService.getAllCurrenciesForDay(date);
     }
-
-//    @GetMapping(value = "/testDB", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String testDB() {
-//        dayCurrencyService.insert(new DayCurrency(444, 77.77, new Date(1999, 12, 12), 100, "pk33"), "Евро");
-//        return "testDB";
-//    }
 }

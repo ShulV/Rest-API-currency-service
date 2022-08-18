@@ -20,13 +20,11 @@ import java.util.Objects;
 public class SpringConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
     private final Environment environment;
-
     @Autowired
     public SpringConfig(ApplicationContext applicationContext, Environment environment) {
         this.applicationContext = applicationContext;
         this.environment = environment;
     }
-
     // разрешение отравлять запросы с других адресов/портов (разрешение CORS)
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -39,9 +37,7 @@ public class SpringConfig implements WebMvcConfigurer {
                         .allowedOrigins("http://localhost:3000/");
             }
         };
-
     }
-
     @Bean
     @Profile("!test")
     public DataSource dataSource() {
@@ -54,7 +50,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
         return dataSource;
     }
-
     @Bean
     @Profile("!test")
     public JdbcTemplate jdbcTemplate() {

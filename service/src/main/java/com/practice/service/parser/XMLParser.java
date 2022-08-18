@@ -23,7 +23,6 @@ public class XMLParser {
     DateFormat fromFormat = new SimpleDateFormat("dd.MM.yyyy");
     DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
     public List<DayCurrency> xmlDailyValutes(Date date) {
         List<DayCurrency> dayCurrencyList = new ArrayList<>();
 
