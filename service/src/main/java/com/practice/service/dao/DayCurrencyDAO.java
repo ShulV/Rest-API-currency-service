@@ -18,17 +18,14 @@ import java.util.List;
 @Component
 public class DayCurrencyDAO {
     private final JdbcTemplate jdbcTemplate;
-
     @Autowired
     public DayCurrencyDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
     public List<DayCurrency> getAll() {
         return jdbcTemplate.query("SELECT * FROM \"DayCurrency\"",
                 new BeanPropertyRowMapper<>(DayCurrency.class));
     }
-
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) {
 
         return jdbcTemplate.query("SELECT \"PK_daycur\", \"value\", \"date\", \"nominal\", dc.\"PK_id\" " +
@@ -41,7 +38,6 @@ public class DayCurrencyDAO {
                 new Object[]{charcode, fromDate, toDate}).stream().toList();
 
     }
-
     public void insert(DayCurrency dayCurrency, String currencyName) {
         Double value = dayCurrency.getValue();
         Date date = dayCurrency.getDate();
@@ -53,8 +49,6 @@ public class DayCurrencyDAO {
                         "where \"name\"=?));",
                 value, date, nominal, currencyName);
     }
-
-
     public void batchDayCurrencyInsert(List<DayCurrency> dayCurrencyList, String charcode) {
         jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\") " +
                         "VALUES (?, ?, ?, " +
@@ -74,13 +68,10 @@ public class DayCurrencyDAO {
                     }
                 });
     }
-
     public void deleteForDate(Date date) {
         jdbcTemplate.update("DELETE FROM public.\"DayCurrency\"" +
                 "WHERE \"date\"= ?;", date);
     }
-
-
     public List<FullCurrencyInfo> getAllCurrenciesForDay(java.util.Date date) {
         return jdbcTemplate.query("SELECT \"value\", \"date\", \"nominal\", c.\"charcode\", c.\"name\"" +
                         "FROM \"DayCurrency\" as dc " +
@@ -90,7 +81,6 @@ public class DayCurrencyDAO {
                 new FullCurrencyInfoMapper(),
                 new Object[]{date}).stream().toList();
     }
-
     public void insertForDate(List<DayCurrency> dayCurrencyList) {
         jdbcTemplate.batchUpdate("INSERT INTO \"DayCurrency\"(\"value\", \"date\", \"nominal\", \"PK_id\") " +
                         "VALUES (?, ?, ?, ?);",

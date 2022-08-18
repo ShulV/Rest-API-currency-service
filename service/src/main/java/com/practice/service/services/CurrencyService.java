@@ -36,7 +36,6 @@ public class CurrencyService {
         }
         return currencyListFromDB;
     }
-
     public void initDB() throws IOException {
         List<Currency> currencyListDB = currencyDAO.getAll();
         List<Currency> currencyListFromParser = xmlParser.xmlInitializeCurrency();
