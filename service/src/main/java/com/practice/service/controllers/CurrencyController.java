@@ -25,7 +25,7 @@ public class CurrencyController {
     }
 
     @GetMapping(value = "/initDB", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String testDB() throws IOException {
+    public String init() throws IOException {
         currencyService.initDB();
         return "initDB";
     }
