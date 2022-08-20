@@ -5,6 +5,8 @@ import com.practice.service.model.DayCurrency;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
@@ -24,6 +27,13 @@ public class XMLParser {
     DateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+    private final Environment environment;
+
+    @Autowired
+    public XMLParser(Environment environment) {
+        this.environment = environment;
+    }
+
     public List<DayCurrency> xmlDailyValutes(Date date) {
         List<DayCurrency> dayCurrencyList = new ArrayList<>();
 
@@ -33,13 +43,13 @@ public class XMLParser {
 
         Date todayDate;
 
-        String xml = "http://www.cbr.ru/scripts/XML_daily.asp?date_req=" + dateFormat.format(date);
+        String xml = environment.getProperty("parser.targetDay") + dateFormat.format(date);
         Document doc;
         try {
             doc = Jsoup
                     .connect(xml)
-                    .userAgent("Chrome/4.0.249.0 Safari/532.5")
-                    .referrer("http://www.google.com")
+                    .userAgent(Objects.requireNonNull(environment.getProperty("parser.userAgent")))
+                    .referrer(Objects.requireNonNull(environment.getProperty("parser.referrer")))
                     .get();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -84,12 +94,12 @@ public class XMLParser {
         List<Integer> nominalList = new ArrayList<>();
         List<Date> dateList = new ArrayList<>();
 
-        String xml = "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
-                + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=" + currencyID;
+        String xml = environment.getProperty("parser.period") + dateFormat.format(startDate)
+                + "&date_req2=" + dateFormat.format(endDate) + "&VAL_NM_RQ=" + currencyID;
         Document doc = Jsoup
                 .connect(xml)
-                .userAgent("Chrome/4.0.249.0 Safari/532.5")
-                .referrer("http://www.google.com")
+                .userAgent(Objects.requireNonNull(environment.getProperty("parser.userAgent")))
+                .referrer(Objects.requireNonNull(environment.getProperty("parser.referrer")))
                 .get();
         doc = Jsoup.parse(String.valueOf(doc));
 
@@ -123,11 +133,11 @@ public class XMLParser {
         List<String> charCodeList = new ArrayList<>();
         List<String> nameList = new ArrayList<>();
 
-        String xml = "https://www.cbr.ru/scripts/XML_daily.asp";
+        String xml = environment.getProperty("parser.daily");
         Document doc = Jsoup
                 .connect(xml)
-                .userAgent("Chrome/4.0.249.0 Safari/532.5")
-                .referrer("http://www.google.com")
+                .userAgent(Objects.requireNonNull(environment.getProperty("parser.userAgent")))
+                .referrer(Objects.requireNonNull(environment.getProperty("parser.referrer")))
                 .get();
 
         for (Element e : doc.select("Valute")) {

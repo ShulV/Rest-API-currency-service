@@ -17,12 +17,10 @@ import java.util.List;
 @Component
 public class CurrencyDAO {
     private final JdbcTemplate jdbcTemplate;
-
     @Autowired
     public CurrencyDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
     public List<Currency> getAll() {
         return jdbcTemplate.query("SELECT * FROM \"Currency\"", new CurrencyMapper());
     }
@@ -30,7 +28,6 @@ public class CurrencyDAO {
     public List<CurrencyMenuItem> getAllCurrencyDesignations() {
         return jdbcTemplate.query("SELECT charcode, name FROM \"Currency\"", new CurrencyMenuMapper());
     }
-
     public void batchCurrencyUpdate(List<Currency> currencyList) {
         jdbcTemplate.batchUpdate("INSERT INTO \"Currency\" (\"PK_id\", \"numcode\", \"charcode\", \"name\") " +
                         "VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING",
@@ -52,5 +49,4 @@ public class CurrencyDAO {
         return jdbcTemplate.query("SELECT * FROM \"Currency\" WHERE \"charcode\" =?",
                 new Object[]{charcode}, new CurrencyIdCharcodeMapper()).get(0);
     }
-
 }
