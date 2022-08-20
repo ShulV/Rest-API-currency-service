@@ -21,7 +21,6 @@ public class DayCurrencyService {
     private final DayCurrencyDAO dayCurrencyDAO;
     private final CurrencyDAO currencyDAO;
     private final XMLParser xmlParser;
-
     private final Environment environment;
 
     public DayCurrencyService(DayCurrencyDAO dayCurrencyDAO, CurrencyDAO currencyDAO, XMLParser xmlParser, Environment environment) {
