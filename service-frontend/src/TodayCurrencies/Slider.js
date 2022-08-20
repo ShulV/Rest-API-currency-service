@@ -4,11 +4,13 @@ import cn from 'classnames'
 import './css/style.css'
 
 const Slider = (props) => {
-    const slider = useRef(null)
-    let prevAllowed = false
-    let nextAllowed = true
-    let position = 0
 
+    const slider = useRef(null)
+    let prevAllowed = false //разрешение на слайд влево
+    let nextAllowed = true //разрешение на слайд вправо
+    let position = 0 //текущая позиция слайдера
+
+    //обработчик листания слайдра влево
     const prevHandler = () => {
       if (prevAllowed) {
         position += 300
@@ -24,6 +26,7 @@ const Slider = (props) => {
 
     }
 
+    //обработчик листания слайдра вправо
     const nextHandler = () => {
       
       if (nextAllowed) {
@@ -46,6 +49,7 @@ const Slider = (props) => {
           { 
             props.currencies.map((currency, index) => {
                return (
+
                 <Slide currency={currency} index={index} key={index}/>
                )
             })

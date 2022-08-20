@@ -3,20 +3,20 @@ import Select from './Select'
 import './css/style.css'
 import formatDate from '../utils/dateMethods'
 
-
-  
 const Form = (props) => {
     
-    const [fromDate, setFromDate] = useState(formatDate(new Date()))
-    const [toDate, setToDate] = useState(formatDate(new Date()))
-    const [selectOption, setSelectOption] = useState("USD")
+    const [fromDate, setFromDate] = useState(formatDate(new Date())) //текущая дата по умолчанию 
+    const [toDate, setToDate] = useState(formatDate(new Date())) //текущая дата по умолчанию 
+    const [selectOption, setSelectOption] = useState("AUD") //Австралийский доллар по умолчанию 
     
-
+    //запросить данные по валюте за период через API сервера
     async function currencyFetch() {
-        const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${props.selectOption}`)
+        const response = await fetch(`http://localhost:8080/api/currency/period-currencies?fromDate=${fromDate}&toDate=${toDate}&charcode=${selectOption}`)
         if (response.ok) {
             const periodCurrencies = await response.json()
             props.setPeriodCurrencies(periodCurrencies)
+            props.setFromDate(fromDate)
+            props.setToDate(toDate)
             props.updateChartData(periodCurrencies, selectOption)
         }
         else {
@@ -25,30 +25,30 @@ const Form = (props) => {
         
     }
 
+    //получить данные по валюте за период
     async function getDataForPeriod() {
-        
         props.setSelectOption(selectOption)
         props.setFromDate(fromDate)
         props.setToDate(toDate)
         await currencyFetch()
-        
-        await console.log(props.periodCurrencies)
-
     }
     
+    //обработчик календаря начальной даты
     const fromDateHandler = (event) => {
         setFromDate(event.target.value)
     }
 
+    //обработчик календаря конечной даты
     const toDateHandler = (event) => {
         setToDate(event.target.value)
     }
     
-
+    //обработчик меню
     const selectOptionHandler = (event) => {
         setSelectOption(getCharcode(event.target.value))
     }
 
+    //получить charcode по названию
     const getCharcode = (currencyName) => {
         return props.currencies.filter((currency) => {
             return currency.name == currencyName

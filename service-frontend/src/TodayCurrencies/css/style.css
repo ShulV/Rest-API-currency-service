@@ -7,7 +7,7 @@
 .today-currencies__slider {
     margin: 0 auto;
     width: 900px;
-    border: 1px dashed var(--dark-green);
+    outline: 1px dashed var(--dark-green);
     border-radius: 25px;
     display: flex;
     flex-direction: row;

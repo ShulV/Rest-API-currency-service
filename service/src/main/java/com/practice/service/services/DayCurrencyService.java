@@ -17,19 +17,16 @@ import java.util.*;
 @Component
 @PropertySource("classpath:application.properties")
 public class DayCurrencyService {
-
     private final DayCurrencyDAO dayCurrencyDAO;
     private final CurrencyDAO currencyDAO;
     private final XMLParser xmlParser;
     private final Environment environment;
-
     public DayCurrencyService(DayCurrencyDAO dayCurrencyDAO, CurrencyDAO currencyDAO, XMLParser xmlParser, Environment environment) {
         this.dayCurrencyDAO = dayCurrencyDAO;
         this.currencyDAO = currencyDAO;
         this.xmlParser = xmlParser;
         this.environment = environment;
     }
-
     public List<DayCurrency> getPeriodCurrencies(Date fromDate, Date toDate, String charcode) throws IOException, ParseException {
         String curId = currencyDAO.getIdByCharcode(charcode);
         List<DayCurrency> periodCurrencies = dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
@@ -66,15 +63,12 @@ public class DayCurrencyService {
         dayCurrencyDAO.batchDayCurrencyInsert(dayCurrencyList, charcode);
         return dayCurrencyDAO.getPeriodCurrencies(fromDate, toDate, charcode);
     }
-
     public void insert(DayCurrency dayCurrency, String currencyName) {
         dayCurrencyDAO.insert(dayCurrency, currencyName);
     }
-
     private void fillInEmptyLines(Date fromDate, Date toDate,
                                   List<DayCurrency> dayCurrencyList,
                                   String currencyId) throws IOException, ParseException {
-        //TODO перенести в константы
         int MS_IN_DAY = Integer.parseInt((Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY"))));
         // Начальная дата запрашиваемого периода.
         Date startDate = (Date) fromDate.clone();
@@ -92,7 +86,6 @@ public class DayCurrencyService {
             newDayCurrencyList.addAll(0, startMissingDates);
             startDate = (Date) dayCurrencyList.get(0).getDate().clone();
         }
-
         DayCurrency prevDayCurrency = dayCurrencyList.get(0).clone();
 
         int elemNum = 0;
@@ -112,7 +105,6 @@ public class DayCurrencyService {
         }
         dayCurrencyList.addAll(newDayCurrencyList);// Объединение коллекций
     }
-
     private List<DayCurrency> fillEmptyList(List<DayCurrency> dayCurrencyList,
                                             Date fromDate, Date toDate,
                                             String currencyId ) throws IOException, ParseException {
@@ -126,7 +118,6 @@ public class DayCurrencyService {
             startDate.setTime(startDate.getTime() - 10L * MS_IN_DAY);
             dayCurrencyList = xmlParser.xmlConnectPeriod(startDate, endDate, currencyId);
         }
-
         DayCurrency prevDayCurrency = dayCurrencyList.get(dayCurrencyList.size() - 1).clone();
         startDate = (Date) fromDate.clone();
         List<DayCurrency> newCurrencyList = new ArrayList<>();
@@ -139,7 +130,6 @@ public class DayCurrencyService {
         }
         return newCurrencyList;
     }
-
     private List<Date> getMissingDates(Date fromDate, Date toDate, List<DayCurrency> dayCurrencyList) {
         int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
 
@@ -175,7 +165,6 @@ public class DayCurrencyService {
 
     public List<FullCurrencyInfo> getAllCurrenciesForDay(Date date) throws IOException, ParseException {
         int MS_IN_DAY = Integer.parseInt(Objects.requireNonNull(environment.getProperty("time.MS_IN_DAY")));
-        //TODO перенести в константы
         List<FullCurrencyInfo> fullCurrencyInfos = dayCurrencyDAO.getAllCurrenciesForDay(date);
         if (fullCurrencyInfos.size() == currencyDAO.getAll().size()) {
             return fullCurrencyInfos;
@@ -189,7 +178,7 @@ public class DayCurrencyService {
                 dayCurrencyListTmp = xmlParser.xmlConnectPeriod(startDate, date, currencyDAO.getIdByCharcode("USD"));
             }
             Date existingDate = dayCurrencyListTmp.get(dayCurrencyListTmp.size() - 1).getDate();
-            //
+
             List<DayCurrency> dayCurrencyList = xmlParser.xmlDailyValutes(existingDate);
             //присваиваем сегодняшнюю дату
             for (DayCurrency dayCurrency: dayCurrencyList

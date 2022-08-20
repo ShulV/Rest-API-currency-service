@@ -6,7 +6,6 @@ import './css/style.css'
 import formatDate from '../utils/dateMethods'
 
 
-
 const CurrencyByPeriod = (props) => {
 
     const [chartData, setChartData] = useState({
@@ -19,16 +18,15 @@ const CurrencyByPeriod = (props) => {
     const [toDate, setToDate] = useState(formatDate(new Date()))
     const [selectOption, setSelectOption] = useState('USD')
 
+    // получить массив названий валют из массива объектов currencies
     const getLabelList = (currencies) => {
       const labelList = []
       currencies.forEach(currency => {
-        // console.log('foreach')
-        // console.log(currency)
         labelList.push(formatDate(new Date(currency.date)))
       });
       return labelList
     }
-
+    // получить массив значений value из массива объектов currencies
     const getDataList = (currencies) => {
       const dataList = []
       currencies.forEach(currency => {
@@ -36,16 +34,10 @@ const CurrencyByPeriod = (props) => {
       });
       return dataList
     }
-
+    // обновить данные для диаграммы
     const updateChartData = (currencies, selectOption) => {
-      // console.log("cur")
-      // console.log(currencies)
       const labels = getLabelList(currencies)
       const data = getDataList(currencies)
-      // console.log("labels")
-      // console.log(labels)
-      // console.log("data")
-      // console.log(data)
       setChartData({
         labels: labels,
         datasets: [
@@ -109,7 +101,9 @@ const CurrencyByPeriod = (props) => {
     return (
         <div className="currency-by-period">
             <div className='currency-by-period__text-block'>
-              <Form 
+              {/* Форма запроса валюты за период */}
+              {!props.currenciesLoaded &&
+                <Form 
                 currencies={props.currencies} 
                 setPeriodCurrencies={setPeriodCurrencies} 
                 periodCurrencies={periodCurrencies}
@@ -119,13 +113,19 @@ const CurrencyByPeriod = (props) => {
                 setToDate={setToDate}
                 updateChartData={updateChartData}
                 className='currency-by-period__form'
-              />
-              <PeriodCurrencyList 
-                selectOption={selectOption}
-                periodCurrencies={periodCurrencies} 
-              />
+                />  
+              }
+              {/* Список дата-значение для валюты */}
+              {periodCurrencies.length > 0 &&
+                <PeriodCurrencyList 
+                  selectOption={selectOption}
+                  periodCurrencies={periodCurrencies} 
+                />
+              }
+              
             </div>
-            {periodCurrencies.length > 0 &&
+            {/* График */}
+            {periodCurrencies.length > 2 &&
                 <Chart 
                     chartOptions={chartOptions}
                     chartData={chartData}
