@@ -43,7 +43,7 @@ public class XMLParser {
 
         Date todayDate;
 
-        String xml = "http://www.cbr.ru/scripts/XML_daily.asp?date_req=" + dateFormat.format(date);
+        String xml = environment.getProperty("parser.targetDay") + dateFormat.format(date);
         Document doc;
         try {
             doc = Jsoup
@@ -94,8 +94,8 @@ public class XMLParser {
         List<Integer> nominalList = new ArrayList<>();
         List<Date> dateList = new ArrayList<>();
 
-        String xml = "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=" + dateFormat.format(startDate)
-                + "&date_req2=" + dateFormat.format(endDate)+"&VAL_NM_RQ=" + currencyID;
+        String xml = environment.getProperty("parser.period") + dateFormat.format(startDate)
+                + "&date_req2=" + dateFormat.format(endDate) + "&VAL_NM_RQ=" + currencyID;
         Document doc = Jsoup
                 .connect(xml)
                 .userAgent(Objects.requireNonNull(environment.getProperty("parser.userAgent")))
