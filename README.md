@@ -1,8 +1,8 @@
 <h1 align="center">Client-server application for a currency tracking</h1>
 
 # Installation
-## backend
-## frontend
+## Backend
+## Frontend
 В cmd вводим:
 проверка наличия установленного Node.js:
 ```
@@ -23,7 +23,7 @@ $ npm start
 гифка работы фронтенда:
 ...
 
-## mobile app (android)
+## Android Application
 Для установки Android-приложения нужно перейти в директорию:
 ```
 client-android\app\build\outputs\apk\debug
