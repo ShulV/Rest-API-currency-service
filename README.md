@@ -1,7 +1,11 @@
 <h1 align="center">Client-server application for a currency tracking</h1>
+
 ## Description
+
 Репозиторий включает в себя бэкэнд, фронэнд и мобильное приложение. Подпроекты расположены в папках "service", "service-frontend", "cliend-android" соотвественно.
+
 ## Installation
+
 ### Backend
 Можно пойти трудным путём и заняться сборкой, компиляцией, другими низкоуровневыми вещами через консоль:
 https://javarush.ru/groups/posts/2318-kompiljacija-v-java
