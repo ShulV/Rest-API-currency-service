@@ -57,6 +57,9 @@ client-android\app\build\outputs\apk\debug
 
 Для того, чтобы Android-приложение могло подключиться к Spring-приложению, нужно верно указать URL сервера.
 URL сервера можно настроить во вкладке "Настройки" Android-приложения.
+
+<img width="250px" alt="android" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/android.png">
+
 Данный URL-адрес представляет собой строку:
 ```
 http://"IPv4-адрес":8080
