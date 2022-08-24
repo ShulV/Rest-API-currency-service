@@ -13,11 +13,11 @@ https://javarush.ru/groups/posts/2318-kompiljacija-v-java
 Можно пойти простым путём и доверить это IDE (например, установить Intellij IDEA)
 Структура maven проекта:
 
-![maven](https://github.com/ShulV/sber-practice/blob/main/readme-images/maven_structure.jpeg)
+<img width="150px" alt="maven" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/maven_structure.jpeg">
 
 Сборка и запуск проекта на 8080 порту:
 
-![backend](https://github.com/ShulV/sber-practice/blob/main/readme-images/backend_console_execute_project.png)
+<img width="900px" alt="backend" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/backend_console_execute_project.png">
 
 ### Frontend
 В cmd вводим:
@@ -39,7 +39,11 @@ $ npm start
 ```
 Запуск фронтенда на 3000 порту:
 
-![frontend](https://github.com/ShulV/sber-practice/blob/main/readme-images/frontend_console_execute_project.png)
+<img width="250px" alt="frontend-console" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/frontend_console_execute_project.png">
+
+Результат:
+
+<img width="350px" alt="frontend" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/frontend.png">
 
 ### Android Application
 Для установки Android-приложения нужно перейти в директорию:
