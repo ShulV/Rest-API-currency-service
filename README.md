@@ -1,8 +1,25 @@
 <h1 align="center">Client-server application for a currency tracking</h1>
 
-# Installation
-## Backend
-## Frontend
+## Description
+
+Репозиторий включает в себя бэкэнд, фронэнд и мобильное приложение. Подпроекты расположены в папках "service", "service-frontend", "cliend-android" соотвественно.
+
+## Installation
+
+### Backend
+Можно пойти трудным путём и заняться сборкой, компиляцией, другими низкоуровневыми вещами через консоль:
+https://javarush.ru/groups/posts/2318-kompiljacija-v-java
+
+Можно пойти простым путём и доверить это IDE (например, установить Intellij IDEA)
+Структура maven проекта:
+
+<img width="150px" alt="maven" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/maven_structure.jpeg">
+
+Сборка и запуск проекта на 8080 порту:
+
+<img width="900px" alt="backend" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/backend_console_execute_project.png">
+
+### Frontend
 В cmd вводим:
 проверка наличия установленного Node.js:
 ```
@@ -20,10 +37,15 @@ $ npm install react-scripts
 ```
 $ npm start
 ```
-гифка работы фронтенда:
-...
+Запуск фронтенда на 3000 порту:
 
-## Android Application
+<img width="250px" alt="frontend-console" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/frontend_console_execute_project.png">
+
+Результат:
+
+<img width="350px" alt="frontend" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/frontend.png">
+
+### Android Application
 Для установки Android-приложения нужно перейти в директорию:
 ```
 client-android\app\build\outputs\apk\debug
@@ -35,6 +57,9 @@ client-android\app\build\outputs\apk\debug
 
 Для того, чтобы Android-приложение могло подключиться к Spring-приложению, нужно верно указать URL сервера.
 URL сервера можно настроить во вкладке "Настройки" Android-приложения.
+
+<img width="250px" alt="android" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/android.png">
+
 Данный URL-адрес представляет собой строку:
 ```
 http://"IPv4-адрес":8080
