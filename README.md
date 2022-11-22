@@ -46,6 +46,7 @@ $ npm start
 <img width="350px" alt="frontend" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/frontend.png">
 
 ### Android Application
+<img width="250px" alt="android" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/mobile.jpg">
 Для установки Android-приложения нужно перейти в директорию:
 ```
 client-android\app\build\outputs\apk\debug
