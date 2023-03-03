@@ -7,10 +7,7 @@
 ## Installation
 
 ### Backend
-Можно пойти трудным путём и заняться сборкой, компиляцией, другими низкоуровневыми вещами через консоль:
-https://javarush.ru/groups/posts/2318-kompiljacija-v-java
-
-Можно пойти простым путём и доверить это IDE (например, установить Intellij IDEA)
+Можно пойти простым путём и доверить сборку и запуск IDE (например, установить Intellij IDEA)
 Структура maven проекта:
 
 <img width="150px" alt="maven" src="https://github.com/ShulV/sber-practice/blob/main/readme-images/maven_structure.jpeg">
